@@ -1,0 +1,8 @@
+Preliminary Specification for a C Statistics Gathering Program
+
+Sun Oct 24 10:12:14 CST 2010
+
+The program stat gathers statistics about C source files and prints them.
+The command line is
+		stat <files...>
+where <files...> is a list of source files.

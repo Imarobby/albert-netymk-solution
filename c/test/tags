@@ -1,0 +1,13 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+age	test.c	/^	int age;$/;"	m	struct:person_struct	file:	access:public
+main	test.c	/^int main() {$/;"	f
+number	test.c	/^	int number;$/;"	m	struct:person_struct	file:	access:public
+person	test.c	/^} person;$/;"	t	typeref:struct:person_struct	file:
+person_struct	test.c	/^typedef struct person_struct {$/;"	s	file:
+person_struct::age	test.c	/^	int age;$/;"	m	struct:person_struct	file:	access:public
+person_struct::number	test.c	/^	int number;$/;"	m	struct:person_struct	file:	access:public

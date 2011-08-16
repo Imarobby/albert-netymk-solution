@@ -1,0 +1,8 @@
+Specification for a Library
+
+2011-01-07 20:27:29+08:00
+Albert Netymk
+
+The program library finds the books according to the tags user provided.
+
+Before each book is added to the library, some related information is displayed.

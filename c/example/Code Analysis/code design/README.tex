@@ -1,0 +1,30 @@
+\documentclass{report}
+\begin{document}
+In structured programming, you divide the code into modules, then divide the modules into submodules, then divide the sub-modules into sub-submodules,
+and so on.
+
+\begin{quote}
+Basic principle:"Arrange the program's information in the clearest and simplest way possible, and then try to turn it into C code."
+\end{quote}
+
+
+Our program breaks down into several logical modules. First, we have a token scanner, which reads raw C code and turns it into tokens. This subdivides
+into three smaller modules. The first reads the input file, the second determines what type of character we have, and finally, the third assembles this
+information into a token.
+
+The main module consumes tokens and output statistics. Again, this module breaks down into smaller submodules: a do_file procedure to manage each file
+and a submodule for each statistic.
+
+\begin{quote}
+	In a good module design:
+	\begin{itemize}
+		\item
+			The amount of information needed by the people who use the module should be minimized.
+		\item
+			The number rules that the users of the module must follow in order to use the module properly should be small.
+		\item
+			The module should be easily expandable.
+	\end{itemize}
+\end{quote}
+
+

@@ -1,0 +1,267 @@
+#ifndef _complex_h_
+#define _complex_h_
+
+#include <iostream>
+
+/************************************************
+ * Complex class
+ *
+ * Members defined
+ *		complex()
+ *		complex(real, imaginary)
+ *		complex(complex)
+ *
+ *		realpart()
+ *		imaginarypart()
+ *
+ *		set(real, imaginary)
+ *		set_real(real)
+ *		set_imaginary(imaginary)
+ *
+ * Operator member functions
+ *		c = c
+ *		c += c
+ *		c += s
+ *		c -= c
+ *		c -= s
+ *		c *= c
+ *		c *= s
+ *		c /= c
+ *		c /= s
+ *
+ *		++c
+ *		--c
+ *
+ *		c = c + c
+ *		c = c + s
+ *		c = s + c
+ *		c = c - c
+ *		c = c - s
+ *		c = s - c
+ *		c = c * c
+ *		c = c * s
+ *		c = s * c
+ *		c = c / c
+ *		c = c / s
+ *		c = s / c
+ *
+ *		ostream << c
+ *		istream >> c
+ *************************************************/
+class complex {
+	private:
+		double real;
+		double imaginary;
+	public:
+		complex(void) {
+			real = 0;
+			imaginary = 0;
+		}
+
+		// copy constructor
+		complex(const complex &old_complex) {
+			real = old_complex.real;
+			imaginary = old_complex.imaginary;
+		}
+
+		complex(double real, double imaginary) {
+			this->real = real;
+			this->imaginary = imaginary;
+		}
+
+		double realpart() {
+			return real;
+		}
+
+		double imaginarypart() {
+			return imaginary;
+		}
+
+		~complex() {}
+
+		void set(double real, double imaginary) {
+			this->real = real;
+			this->imaginary = imaginary;
+		}
+
+		void set_real(double real) {
+			this->real = real;
+		}
+
+		void set_imaginary(double imaginary) {
+			this->imaginary = imaginary;
+		}
+
+
+		complex operator = (const complex &oper2) {
+			set(oper2.real, oper2.imaginary);
+			return *this;
+		}
+
+		complex &operator += (const complex &oper2) {
+			real += oper2.real;
+			imaginary += oper2.imaginary;
+			return *this;
+		}
+
+		complex &operator += (double oper2) {
+			real += oper2;
+			return *this;
+		}
+
+		complex &operator -= (const complex &oper2) {
+			real -= oper2.real;
+			imaginary -= oper2.imaginary;
+			return *this;
+		}
+
+		complex &operator -= (double oper2) {
+			real -= oper2;
+			return *this;
+		}
+		complex &operator *= (const complex &oper2) {
+			real *= oper2.real;
+			imaginary *= oper2.imaginary;
+			return *this;
+		}
+
+		complex &operator *= (double oper2) {
+			real *= oper2;
+			return *this;
+		}
+
+		complex &operator /= (const complex &oper2) {
+			return *this / oper2;
+		}
+
+		complex &operator /= (double oper2) {
+			real /= oper2;
+			return *this;
+		}
+
+		// ++c
+		complex &operator ++ (void) {
+			++real;
+			return *this;
+		}
+
+		// --c
+		complex &operator -- (void) {
+			--real;
+			return *this;
+		}
+
+		int operator == (const complex &oper2) {
+			return (this->real == oper2.real) &&
+				(this->imaginary == oper2.imaginary);
+		}
+
+		int operator != (const complex &oper2) {
+			return !(*this == oper2);
+		}
+
+		/*
+		ostream &operator << (ostream &out, const complex &number) {
+			out << "(" << number.real << "," << number.imaginary << ")";
+			return out;
+		}
+
+		istream &operator >> (istream &in, complex &number) {
+			double real, imaginary;
+			char ch;
+
+			number.set(0,0);
+
+			in.ipfx(1);
+			in >> ws;			// skip white space
+
+			if(in.bad())
+				return in;
+
+			in >> ch;
+			if(ch != '(') {
+				in.set(ios::failbit);
+				return in;
+			}
+
+			in >> real;
+
+			if(in.bad())
+				return in;
+
+			in >> ws >> ch;
+
+			if(in.bad())
+				return in;
+
+			if(ch != ',') {
+				in.set(ios::failbit);
+				return in;
+			}
+
+			in >> imaginary;
+			in >> ws >> ch;
+			if(in.bad())
+				return in;
+
+			if(ch != ')') {
+				in.set(ios::failbit);
+				return in;
+			}
+			number.set(real, imaginary);
+			return in;
+		}
+		*/
+};
+// binary arithmetic operator
+inline complex operator + (const complex& oper1, const complex& oper2) {
+	return complex(oper1.realpart() + oper2.realpart(), oper1.imaginarypart() + oper2.imaginarypart());
+}
+
+inline complex operator + (const complex &oper1, double oper2) {
+	return complex(oper1.realpart() + oper2, oper1.imaginarypart());
+}
+
+inline complex operator + (double oper1, const complex &oper2) {
+	return complex(oper1 + oper2.realpart(), oper2.imaginarypart());
+}
+
+inline complex operator - (const complex &oper1, const complex &oper2) {
+	return complex(oper1.realpart() - oper2.realpart(), oper1.imaginarypart() - oper2.imaginarypart());
+}
+
+inline complex operator - (const complex &oper1, double oper2) {
+	return complex(oper1.realpart() - oper2, oper1.imaginarypart());
+}
+
+inline complex operator - (double oper1, const complex &oper2) {
+	return complex(oper1 - oper2.realpart(), oper2.imaginarypart());
+}
+inline complex operator * (const complex &oper1, const complex &oper2) {
+	return complex(oper1.realpart() * oper2.realpart() - oper1.imaginarypart() * oper2.imaginarypart(),
+			oper1.realpart() * oper2.imaginarypart() + oper1.imaginarypart() * oper2.realpart());
+}
+
+inline complex operator * (const complex &oper1, double oper2) {
+	return complex(oper1.realpart() * oper2, oper1.imaginarypart() * oper2);
+}
+
+inline complex operator * (double oper1, const complex &oper2) {
+	return complex(oper1 * oper2.realpart(), oper1 * oper2.imaginarypart());
+}
+
+inline complex operator / (const complex &oper1, const complex &oper2) {
+	double denominator = oper2.realpart()*oper2.realpart() + oper2.imaginarypart()*oper2.imaginarypart();
+	complex result= oper1 * complex(oper2.realpart(), -oper2.imaginarypart());
+	return result / denominator;
+}
+
+inline complex operator / (const complex &oper1, double oper2) {
+	return complex(oper1.realpart() / oper2, oper1.imaginarypart());
+}
+
+inline complex operator / (double oper1, const complex &oper2) {
+	return complex(oper1 / oper2.realpart(), oper2.imaginarypart());
+}
+
+#endif // _complex_h_

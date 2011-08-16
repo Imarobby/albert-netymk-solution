@@ -1,0 +1,18 @@
+DATABASE
+
+One database is required in this program, so we have two choices. One is to use one external database, for example, MySQL. The other is to use one 
+internal database. Probably, XML is OK to use in the later case.
+
+In the later case, all the data must be read into memory before the searching begins, which means when the number of items in this library goes to 
+million, the cost is tremendous. Therefore, it might be a good idea to use the internal database if the number of books is within one thousand.
+
+It is obvious that the performance is intolerable when the number goes beyond that. In this case, one external database is required or some 
+optimization is required.
+
+MySQL
+It is all about database design. The structures of tables can be applied in the later case.
+Use JDBC(Java Database Connector) to query the desired information.
+XML
+I plan to create one hidden file named ".library" to store the information for all the books. Considering the big cost of I/O, I believe that it is 
+reasonable to constrain the data stream in one. As for each book, ten lines are sufficient to store all the information.
+Use XML parser to read the content of this file, and put it in the memory.

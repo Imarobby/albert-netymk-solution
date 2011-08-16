@@ -1,0 +1,11 @@
+clear
+x=linspace(0,100,1000);
+y=inline('0.1*x.^3-5*x.^2-x+exp(-x)+4');
+figure(1)
+plot(x,y(x))
+grid on
+root_1=fzero(y,a(1))
+root_2=fzero(y,a(2))
+[x, minimal]=fminbnd(y,root_1,root_2)
+hold on
+plot([root_1, root_2], [0, 0],'o', x, minimal, ')

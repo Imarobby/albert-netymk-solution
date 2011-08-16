@@ -1,0 +1,52 @@
+
+body {
+	font: 80% arial, helvetica, sans-serif;
+	background: #ccc url(images/lizards2.gif);
+	margin: 1em;
+}
+.accessaid, h1 {
+	position: absolute;
+	height: 0;
+	overflow: hidden;
+}
+#header {
+	background: #036 url(images/charlesdarwin.gif);
+	height: 5em;
+}
+#navigation {
+	position: absolute;
+	top: 6em;
+	left: 0;
+	width: 12em;
+}
+#navigation ul {
+	margin: 0 0 1em 0;
+	padding: 0;
+	list-style: none;
+}
+#navigation ul a {
+	color: white;
+	text-decoration: none;
+	display: block;
+	padding: 0 0.5em;
+	background: #17a;
+	margin: 0 1em 1px 1em;
+}
+#navigation a:visited {
+	color: #ccc;
+}
+
+#navigation a:hover {
+	background: #28b;
+}
+
+#content {
+	padding: 1px 20px 1em 40px;
+	border-left: 12em solid #069;
+}
+#container {
+	position: relative;
+	width: 80%;
+	border: solid #036;
+	margin: auto;
+}
