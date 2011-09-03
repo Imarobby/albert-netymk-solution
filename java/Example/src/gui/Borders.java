@@ -41,6 +41,7 @@ public class Borders extends JFrame {
 		add(showBorder(new CompoundBorder(
 						new EtchedBorder(),
 						new LineBorder(Color.RED))));
+		setVisible(true);
 	}
 	public static void main(String[] args) {
 		SwingConsole.run(Borders.class, 500, 300);

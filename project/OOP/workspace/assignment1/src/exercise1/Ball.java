@@ -107,7 +107,6 @@ public class Ball implements Cloneable {
 			}
 		}
 		return false;
-
 	}
 
 	/**
