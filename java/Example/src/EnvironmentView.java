@@ -1,27 +1,31 @@
 import gui.SwingConsole;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 public class EnvironmentView extends JFrame {
 	private static double scale = 0.8;
+	private Environment env;
+	private Agent agent;
 
 	private int height;
 	private int width;
 
-	public EnvironmentView() {
-		this(4, 4);
-	}
-
-	public EnvironmentView(int h, int w) {
-		height = h;
-		width = w;
-		setLayout(new GridLayout(h, w));
-		for(int i=0; i<h; ++i) {
-			for(int j=0; j<w; ++j) {
-				// TODO retrieve data from model
-				add(new Block(true, true));
+	public EnvironmentView(Environment env, Agent agent) {
+		height = Environment.HEIGHT;
+		width = Environment.WIDTH;
+		this.env = env;
+		this.agent = agent;
+		setLayout(new GridLayout(height, width));
+		for (int i = 0; i < height; ++i) {
+			for (int j = 0; j < width; ++j) {
+				add(new Block(agent.row == i && agent.col == j, env.IsDirty(i,
+						j)));
 			}
 		}
 		setVisible(true);
@@ -41,16 +45,19 @@ public class EnvironmentView extends JFrame {
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 
-			if(isDirty) {
+			if (isDirty) {
 				g.setColor(Color.black);
-				// g.fillOval((int)(getSize().width*(1-scale)/2), (int)(getSize().height*(1-scale)/2),
-				// 		(int)(getSize().width*scale), (int)(getSize().height*scale));
+				// g.fillOval((int)(getSize().width*(1-scale)/2),
+				// (int)(getSize().height*(1-scale)/2),
+				// (int)(getSize().width*scale), (int)(getSize().height*scale));
 				g.fillRect(0, 0, getSize().width, getSize().height);
 			}
-			if(hasAgent) {
+			if (hasAgent) {
 				g.setColor(Color.red);
-				g.fillOval((int)(getSize().width*(1-scale)/2), (int)(getSize().height*(1-scale)/2),
-						(int)(getSize().width*scale), (int)(getSize().height*scale));
+				g.fillOval((int) (getSize().width * (1 - scale) / 2),
+						(int) (getSize().height * (1 - scale) / 2),
+						(int) (getSize().width * scale),
+						(int) (getSize().height * scale));
 			}
 		}
 
@@ -58,10 +65,12 @@ public class EnvironmentView extends JFrame {
 			hasAgent = true;
 			repaint();
 		}
+
 		public void removeAgent() {
 			hasAgent = false;
 			repaint();
 		}
+
 		public void clean() {
 			isDirty = false;
 			repaint();
@@ -70,7 +79,9 @@ public class EnvironmentView extends JFrame {
 
 	public static class Test {
 		public static void main(String[] argv) {
-			SwingConsole.run(EnvironmentView.class, 600, 600);
+			Environment env = new Environment();
+			Agent agent = new ModelBasedAgent2(env);
+			SwingConsole.run(600, 600, EnvironmentView.class, env, agent);
 		}
 	}
 }
