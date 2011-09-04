@@ -16,12 +16,16 @@ public class EnvironmentView extends JFrame {
 	private int height;
 	private int width;
 
-	public EnvironmentView(Environment env, Agent agent) {
+	public EnvironmentView(Environment env) {
 		height = Environment.HEIGHT;
 		width = Environment.WIDTH;
 		this.env = env;
-		this.agent = agent;
 		setLayout(new GridLayout(height, width));
+		setAgent(new ModelBasedAgent2(env));
+	}
+
+	public void setAgent(Agent agent) {
+		this.agent = agent;
 		for (int i = 0; i < height; ++i) {
 			for (int j = 0; j < width; ++j) {
 				add(new Block(agent.row == i && agent.col == j, env.IsDirty(i,
@@ -29,6 +33,7 @@ public class EnvironmentView extends JFrame {
 			}
 		}
 		setVisible(true);
+
 	}
 
 	private class Block extends JPanel {
@@ -47,9 +52,6 @@ public class EnvironmentView extends JFrame {
 
 			if (isDirty) {
 				g.setColor(Color.black);
-				// g.fillOval((int)(getSize().width*(1-scale)/2),
-				// (int)(getSize().height*(1-scale)/2),
-				// (int)(getSize().width*scale), (int)(getSize().height*scale));
 				g.fillRect(0, 0, getSize().width, getSize().height);
 			}
 			if (hasAgent) {
@@ -81,7 +83,7 @@ public class EnvironmentView extends JFrame {
 		public static void main(String[] argv) {
 			Environment env = new Environment();
 			Agent agent = new ModelBasedAgent2(env);
-			SwingConsole.run(600, 600, EnvironmentView.class, env, agent);
+			SwingConsole.run(600, 600, EnvironmentView.class, env);
 		}
 	}
 }
