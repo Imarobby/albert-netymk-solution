@@ -21,6 +21,39 @@ public class ModelBasedAgent2 extends Agent {
 		return model[i][j];
 	}
 
+	public void random() {
+		super.random();
+		init();
+	}
+
+	public void init() {
+		super.init();
+		setFinish(false);
+		// clean memory
+		for (int i = 0; i < Environment.HEIGHT; ++i) {
+			for (int j = 0; j < Environment.WIDTH; ++j) {
+				model[i][j] = false;
+			}
+		}
+	}
+
+	public boolean IsDirty() {
+		model[row][col] = true;
+		return super.IsDirty();
+	}
+
+	public String getModel() {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < Environment.HEIGHT; ++i) {
+			for (int j = 0; j < Environment.WIDTH; ++j) {
+				sb.append(getModel(i,j) + " ");
+			}
+			sb.append("\n");
+		}
+
+		return sb.toString();
+	}
+
 	public void move() {
 		if (!finished) {
 			boolean found = false;
@@ -29,19 +62,20 @@ public class ModelBasedAgent2 extends Agent {
 			// Try to find the unvisited block within "step" steps.
 			while (true) {
 				if (step > Environment.HEIGHT + Environment.WIDTH - 2) {
-					finished = true;
+					setFinish(true);
+					// finished = true;
 					break;
 				}
 				for (i = -step; i <= step; ++i) {
 					j = step - Math.abs(i);
 					if (!getModel(row + i, col - j)) {
-						model[row + i][col - j] = true;
+						// model[row + i][col - j] = true;
 						j = -j;
 						found = true;
 						break;
 					}
 					if (!getModel(row + i, col + j)) {
-						model[row + i][col + j] = true;
+						// model[row + i][col + j] = true;
 						found = true;
 						break;
 					}
@@ -69,7 +103,7 @@ public class ModelBasedAgent2 extends Agent {
 	public static class Test {
 		public static void main(String[] args) {
 			Environment env = new Environment();
-			Agent agent = new ModelbasedAgent2(env);
+			Agent agent = new ModelBasedAgent2(env);
 			System.out.println(env.toString());
 
 			for (int i = 0; i < 100; ++i) {

@@ -1,5 +1,6 @@
 # executable directory
 bin/
+build/
 
 # Compiled source #
 ###################

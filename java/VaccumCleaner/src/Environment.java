@@ -1,14 +1,41 @@
 import java.util.Random;
 
-public class Environment {
+public class Environment implements Cloneable {
 	final public static int HEIGHT = 4;
 	final public static int WIDTH = 4;
-	final private Random rand = new Random();
+	final private static Random rand = new Random();
+
+	public static Environment copy(Environment env) {
+		Environment result = new Environment();
+		for (int i = 0; i < HEIGHT; ++i) {
+			for (int j = 0; j < WIDTH; ++j) {
+				result.floor[i][j] = env.floor[i][j];
+			}
+		}
+		return result;
+	}
+
 	// True : clean;
 	private boolean[][] floor;
 
 	public Environment() {
 		floor = new boolean[HEIGHT][WIDTH];
+		for (int i = 0; i < HEIGHT; ++i) {
+			for (int j = 0; j < WIDTH; ++j) {
+				floor[i][j] = true;
+			}
+		}
+	}
+
+	public boolean getFloor(int i, int j) {
+		return floor[i][j];
+	}
+
+	public void setFloor(int i, int j, boolean f) {
+		floor[i][j] = f;
+	}
+
+	public void random() {
 		for (int i = 0; i < HEIGHT; ++i) {
 			for (int j = 0; j < WIDTH; ++j) {
 				floor[i][j] = rand.nextBoolean();
