@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Agent {
 	protected static Random rand = new Random();
-	protected final static int LIFETIME = 30;
+	protected final static int LIFETIME = 100;
 	protected Environment env;
 	// The position of the agent.
 	protected int row, col;

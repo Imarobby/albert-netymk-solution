@@ -8,6 +8,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.BrokenBarrierException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +17,7 @@ import javax.swing.JPanel;
 
 public class Main extends JFrame {
 	private static ExecutorService exec = Executors.newCachedThreadPool();
+	private static Dimension dim = new Dimension(400, 500);
 	private CountDownLatch latch;
 	EnvironmentView[] playgrounds;
 	JButton prepare;
@@ -23,26 +26,30 @@ public class Main extends JFrame {
 	Environment env;
 	Agent[] agents;
 
-	VacuumCleanerController[] controller;
+	VacuumCleanerController[] controllers;
 
 	public Main() {
-		controller = new VacuumCleanerController[2];
-		latch = new CountDownLatch(controller.length);
-		env = new Environment();
-		agents = new Agent[controller.length];
+		controllers = new VacuumCleanerController[2];
+		agents = new Agent[controllers.length];
 		agents[0] = new SimpleReflexAgent(new Environment());
 		agents[1] = new ModelBasedAgent2(new Environment());
-		playgrounds = new EnvironmentView[controller.length];
-		playgrounds[0] = new EnvironmentView(agents[0], new Dimension(400, 400));
-		playgrounds[1] = new EnvironmentView(agents[1], new Dimension(400, 400));
+		playgrounds = new EnvironmentView[controllers.length];
+		playgrounds[0] = new EnvironmentView(agents[0], dim);
+		playgrounds[1] = new EnvironmentView(agents[1], dim);
+
+
+		latch = new CountDownLatch(controllers.length);
+		env = new Environment();
 
 		prepare = new JButton("Prepare");
 		run = new JButton("Run");
 		prepare.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (controller[0] != null) {
-					controller[0].setTerminate(true);
+				if (controllers[0] != null) {
+					for(VacuumCleanerController varController : controllers) {
+						varController.setTerminate(true);
+					}
 					try {
 						latch.await();
 					} catch(InterruptedException e) {
@@ -51,7 +58,7 @@ public class Main extends JFrame {
 				}
 				env.random();
 				for(EnvironmentView p : playgrounds) {
-						p.setEnvironment(env);
+						p.initUsingEnvironment(env);
 				}
 				for(Agent a : agents) {
 					a.init();
@@ -64,10 +71,12 @@ public class Main extends JFrame {
 		run.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				for(int i=0; i<controller.length; ++i) {
-					if (controller[i] == null || controller[i].getTerminate()) {
-						controller[i] = new VacuumCleanerController(playgrounds[i], agents[i], latch);
-						exec.execute(controller[i]);
+				// Since all the threads share the same state, all of them are terminated if the first is.
+				if (controllers[0] == null || controllers[0].getTerminate()) {
+					VacuumCleanerController.setBarrier(new CyclicBarrier(controllers.length));
+					for(int i=0; i<controllers.length; ++i) {
+						controllers[i] = new VacuumCleanerController(playgrounds[i], agents[i], latch);
+						exec.execute(controllers[i]);
 					}
 				}
 			}
@@ -84,12 +93,13 @@ public class Main extends JFrame {
 
 	public static class Test {
 		public static void main(String[] argv) {
-			SwingConsole.run(1000, 800, Main.class);
+			SwingConsole.run(Main.class);
 		}
 	}
 }
 
 class VacuumCleanerController implements Runnable {
+	private static CyclicBarrier barrier;
 	private CountDownLatch latch;
 	EnvironmentView playground;
 	Agent agent;
@@ -101,7 +111,11 @@ class VacuumCleanerController implements Runnable {
 		this.latch = latch;
 	}
 
-	// teminated variable is accessed by two threads; one is the controller, the other is main thread.
+	public static void setBarrier(CyclicBarrier b) {
+		 barrier = b;
+	}
+
+	// "terminated" variable is accessed by two threads; one is the controllers, the other is main thread.
 	public synchronized void setTerminate(boolean b) {
 		terminated = b;
 	}
@@ -121,12 +135,15 @@ class VacuumCleanerController implements Runnable {
 				} else {
 					agent.move();
 				}
-				playground.update();
+				playground.update("Step: " + (i + 1));
 				try {
+					barrier.await();
 					TimeUnit.MILLISECONDS.sleep(100);
+				} catch (BrokenBarrierException e) {
+					e.printStackTrace();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-				}
+				} 
 			}
 			setTerminate(true);
 			latch.countDown();

@@ -4,25 +4,29 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
+import javax.swing.JLabel;
 import javax.swing.border.MatteBorder;
 
 public class EnvironmentView extends JPanel {
 	private static double scale = 0.8;
 	private Environment env;
 	private Agent agent;
-	private Block[][] blocks;
 	private int height;
 	private int width;
+
+	private Block[][] blocks;
+	private JLabel label;
 
 	public EnvironmentView(Agent agent, Dimension d) {
 		setPreferredSize(d);
 		setBackground(Color.white);
 		height = Environment.HEIGHT;
 		width = Environment.WIDTH;
-		blocks = new Block[height][width];
 		this.env = agent.env;
 		this.agent = agent;
-		setLayout(new GridLayout(height, width, 2, 2));
+		blocks = new Block[height][width];
+		label = new JLabel("Steps");
+		setLayout(new GridLayout(height + 1, width, 2, 2));
 		setBorder(new MatteBorder(2, 2, 2, 2, Color.white));
 
 		for (int i = 0; i < height; ++i) {
@@ -32,21 +36,23 @@ public class EnvironmentView extends JPanel {
 				add(blocks[i][j]);
 			}
 		}
+		add(label);
 		setVisible(true);
 	}
 
-	public void setEnvironment(Environment env) {
+	public void initUsingEnvironment(Environment env) {
 		for (int i = 0; i < height; ++i) {
 			for (int j = 0; j < width; ++j) {
 				this.env.setFloor(i, j, env.getFloor(i, j));
 			}
 		}
+		label.setText("Steps");
 	}
 
-	public void random() {
-		env.random();
+	public void update(String text) {
+		update();
+		label.setText(text);
 	}
-
 	public void update() {
 		for (int i = 0; i < height; ++i) {
 			for (int j = 0; j < width; ++j) {

@@ -3,6 +3,8 @@ package gui;
 import java.util.List;
 import java.util.ArrayList;
 
+import java.awt.Toolkit;
+
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.SwingUtilities;
@@ -12,6 +14,11 @@ public class SwingConsole {
 	public static void run(final int width, final int height, final Class<? extends JFrame> type) {
 		run(width, height, UIManager.getSystemLookAndFeelClassName(), type);
 	}
+
+	public static void run(final Class<? extends JFrame> type) {
+		run(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height, type);
+	}
+
 
 	public static void run(final int width, final int height, final String lookAndFeel,
 		   	final Class<? extends JFrame> type) {

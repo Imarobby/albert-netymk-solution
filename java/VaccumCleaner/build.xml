@@ -1,14 +1,14 @@
-<project>
+<project default="compile">
     <target name="clean">
         <delete dir="build"/>
     </target>
 
     <target name="compile">
         <mkdir dir="build/classes"/>
-        <javac srcdir="src" destdir="build/classes"/>
+		<javac srcdir="src" includes="*.java, gui/SwingConsole.java" destdir="build/classes"/>
     </target>
 
-    <target name="jar">
+    <target name="jar" depends="compile">
         <mkdir dir="build/jar"/>
         <jar destfile="build/jar/VaccumCleaner.jar" basedir="build/classes">
             <manifest>
@@ -17,7 +17,7 @@
         </jar>
     </target>
 
-    <target name="run">
-        <java jar="build/jar/VaccumCleaner.jar" fork="true"/>
+    <target name="run" depends="compile">
+		<java classname="Main$Test" classpath="build/classes" fork="true"/>
     </target>
 </project>
