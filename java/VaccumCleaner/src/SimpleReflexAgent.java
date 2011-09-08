@@ -1,52 +1,70 @@
 public class SimpleReflexAgent extends Agent {
-	public void move() {
-		switch (Direction.values()[rand.nextInt(4)]) {
-		case UP: {
-			if (row > 0) {
-				row--;
-			}
-			break;
-		}
-		case DOWN: {
-			if (row < Environment.HEIGHT - 1) {
-				row++;
-			}
-			break;
-		}
-		case LEFT: {
-			if (col > 0) {
-				col--;
-			}
-			break;
-		}
-		case RIGHT: {
-			if (col < Environment.WIDTH - 1) {
-				col++;
-			}
-			break;
-		}
-		}
-	}
+	private Direction dir;
+	private boolean forward;
 
 	public SimpleReflexAgent(Environment env) {
 		super(env);
+		forward = true;
 	}
 
-	public static class Test {
-		public static void main(String[] args) {
-			Environment env = new Environment();
-			SimpleReflexAgent agent = new SimpleReflexAgent(env);
-			System.out.println(env.toString());
-			for (int i = 0; i < 100; ++i) {
-				if (agent.IsDirty()) {
-					agent.suck();
-				} else {
-					System.out.println("Row: " + agent.row + " Column: "
-							+ agent.col);
-					agent.move();
-				}
+	public void move() {
+		if (forward) {
+			if (row % 2 == 0) {
+				dir = Direction.RIGHT;
+			} else {
+				dir = Direction.LEFT;
 			}
-			System.out.println(env.toString());
+			switch (dir) {
+			case LEFT: {
+				if (col > 0) {
+					col--;
+				} else if (row < Environment.HEIGHT - 1) {
+					row++;
+				} else {
+					forward = false;
+				}
+				break;
+			}
+			case RIGHT: {
+				if (col < Environment.WIDTH - 1) {
+					col++;
+				} else if (row < Environment.HEIGHT - 1) {
+					row++;
+				} else {
+					forward = false;
+				}
+				break;
+			}
+			}
+		} else {
+			if (row % 2 == 0) {
+				dir = Direction.LEFT;
+			} else {
+				dir = Direction.RIGHT;
+			}
+			switch (dir) {
+			case LEFT: {
+				if (col > 0) {
+					col--;
+				} else if (row > 0) {
+					row--;
+				} else {
+					forward = true;
+				}
+				break;
+			}
+			case RIGHT: {
+				if (col < Environment.WIDTH - 1) {
+					col++;
+				} else if (row > 0) {
+					row--;
+				} else {
+					forward = true;
+				}
+				break;
+			}
+			}
 		}
+		super.move();
 	}
 }

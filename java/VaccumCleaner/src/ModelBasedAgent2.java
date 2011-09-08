@@ -21,11 +21,6 @@ public class ModelBasedAgent2 extends Agent {
 		return model[i][j];
 	}
 
-	public void random() {
-		super.random();
-		init();
-	}
-
 	public void init() {
 		super.init();
 		setFinish(false);
@@ -46,7 +41,7 @@ public class ModelBasedAgent2 extends Agent {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < Environment.HEIGHT; ++i) {
 			for (int j = 0; j < Environment.WIDTH; ++j) {
-				sb.append(getModel(i,j) + " ");
+				sb.append(getModel(i, j) + " ");
 			}
 			sb.append("\n");
 		}
@@ -56,6 +51,7 @@ public class ModelBasedAgent2 extends Agent {
 
 	public void move() {
 		if (!finished) {
+
 			boolean found = false;
 			int i = 0, j = 0;
 			int step = 0;
@@ -95,7 +91,10 @@ public class ModelBasedAgent2 extends Agent {
 					col--;
 				} else if (j > 0) {
 					col++;
+				} else {
+					throw new RuntimeException("Doesn't move anywhere");
 				}
+				super.move();
 			}
 		}
 	}

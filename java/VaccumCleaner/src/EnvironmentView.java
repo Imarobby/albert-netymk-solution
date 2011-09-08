@@ -4,7 +4,6 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.border.MatteBorder;
 
 public class EnvironmentView extends JPanel {
@@ -15,7 +14,6 @@ public class EnvironmentView extends JPanel {
 	private int width;
 
 	private Block[][] blocks;
-	private JLabel label;
 
 	public EnvironmentView(Agent agent, Dimension d) {
 		setPreferredSize(d);
@@ -25,8 +23,7 @@ public class EnvironmentView extends JPanel {
 		this.env = agent.env;
 		this.agent = agent;
 		blocks = new Block[height][width];
-		label = new JLabel("Steps");
-		setLayout(new GridLayout(height + 1, width, 2, 2));
+		setLayout(new GridLayout(height, width, 2, 2));
 		setBorder(new MatteBorder(2, 2, 2, 2, Color.white));
 
 		for (int i = 0; i < height; ++i) {
@@ -36,7 +33,7 @@ public class EnvironmentView extends JPanel {
 				add(blocks[i][j]);
 			}
 		}
-		add(label);
+
 		setVisible(true);
 	}
 
@@ -46,13 +43,8 @@ public class EnvironmentView extends JPanel {
 				this.env.setFloor(i, j, env.getFloor(i, j));
 			}
 		}
-		label.setText("Steps");
 	}
 
-	public void update(String text) {
-		update();
-		label.setText(text);
-	}
 	public void update() {
 		for (int i = 0; i < height; ++i) {
 			for (int j = 0; j < width; ++j) {

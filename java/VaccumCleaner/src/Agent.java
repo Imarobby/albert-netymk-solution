@@ -7,15 +7,11 @@ public class Agent {
 	// The position of the agent.
 	protected int row, col;
 	protected boolean finished;
+	protected int performance;
 
 	public Agent(Environment env) {
 		this.env = env;
-	}
-
-	public void random() {
-		row = rand.nextInt(Environment.HEIGHT);
-		col = rand.nextInt(Environment.WIDTH);
-		setFinish(false);
+		performance = 0;
 	}
 
 	public void setPosition(int i, int j) {
@@ -26,9 +22,12 @@ public class Agent {
 	public void init() {
 		row = 0;
 		col = 0;
+		performance = 0;
+		setFinish(false);
 	}
 
 	public void move() {
+		performance--;
 	}
 
 	public void setFinish(boolean b) {
@@ -45,6 +44,7 @@ public class Agent {
 
 	public void suck() {
 		env.clean(row, col);
+		performance += 10;
 	}
 
 	public String toString() {

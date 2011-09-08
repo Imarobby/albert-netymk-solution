@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class Environment implements Cloneable {
+public class Environment {
 	final public static int HEIGHT = 4;
 	final public static int WIDTH = 4;
 	final private static Random rand = new Random();
