@@ -8,6 +8,7 @@ public class SimpleReflexAgent extends Agent {
 	}
 
 	public void move() {
+		super.move();
 		if (forward) {
 			if (row % 2 == 0) {
 				dir = Direction.RIGHT;
@@ -65,6 +66,5 @@ public class SimpleReflexAgent extends Agent {
 			}
 			}
 		}
-		super.move();
 	}
 }

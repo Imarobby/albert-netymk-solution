@@ -6,6 +6,7 @@ public class Agent {
 	protected Environment env;
 	// The position of the agent.
 	protected int row, col;
+	protected int oldRow, oldCol;
 	protected boolean finished;
 	protected int performance;
 
@@ -27,6 +28,8 @@ public class Agent {
 	}
 
 	public void move() {
+		oldRow = row;
+		oldCol = col;
 		performance--;
 	}
 
@@ -43,6 +46,8 @@ public class Agent {
 	}
 
 	public void suck() {
+		oldRow = row;
+		oldCol = col;;
 		env.clean(row, col);
 		performance += 10;
 	}

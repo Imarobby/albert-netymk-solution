@@ -5,7 +5,7 @@
 
     <target name="compile">
         <mkdir dir="build/classes"/>
-		<javac srcdir="src" includes="*.java, gui/SwingConsole.java" destdir="build/classes"/>
+		<javac srcdir="src" destdir="build/classes"/>
     </target>
 
     <target name="jar" depends="compile">

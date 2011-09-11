@@ -1,5 +1,6 @@
 public class RandomAgent extends Agent {
 	public void move() {
+		super.move();
 		switch (Direction.values()[rand.nextInt(4)]) {
 		case UP: {
 			if (row > 0) {
@@ -26,7 +27,6 @@ public class RandomAgent extends Agent {
 			break;
 		}
 		}
-		super.move();
 	}
 
 	public RandomAgent(Environment env) {

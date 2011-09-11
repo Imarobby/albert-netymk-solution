@@ -51,7 +51,6 @@ public class ModelBasedAgent2 extends Agent {
 
 	public void move() {
 		if (!finished) {
-
 			boolean found = false;
 			int i = 0, j = 0;
 			int step = 0;
@@ -83,6 +82,7 @@ public class ModelBasedAgent2 extends Agent {
 			}
 			if (found) {
 				// Move one step
+				super.move();
 				if (i < 0) {
 					row--;
 				} else if (i > 0) {
@@ -94,7 +94,6 @@ public class ModelBasedAgent2 extends Agent {
 				} else {
 					throw new RuntimeException("Doesn't move anywhere");
 				}
-				super.move();
 			}
 		}
 	}
