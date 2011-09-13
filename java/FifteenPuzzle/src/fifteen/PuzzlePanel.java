@@ -47,7 +47,7 @@ public class PuzzlePanel extends Panel {
       nNodes=solution.size();
       labelSearched.setText("#states:"+engine.evalCount+" level:"+nNodes);
     } else
-      labelSearched.setText("#states:"+engine.evalCount+" FAILED/ABORTED"+nNodes);
+      labelSearched.setText("#states:"+engine.evalCount+" FAILED/ABORTED");
     return nNodes;
   }
 

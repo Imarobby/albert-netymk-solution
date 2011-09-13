@@ -17,7 +17,7 @@ import java.awt.*;
  *
  */
 public class PuzzleEngine {
-	private final static int EVALMAX = 1000;
+	private final static int EVALMAX = 10000;
 	private final static int MAXLEVEL = 30;
 	PuzzleState state;        // the current state
 	public int evalCount=0;   // the number of nodes searched, re-init when search is re-started
@@ -53,7 +53,18 @@ public class PuzzleEngine {
 		Vector queue=new Vector();
 		state.clear();
 		queue.add(state);
-		return searchWithHeuristicFunction(goal, queue);
+
+		Vector tmpSolution;
+
+		tmpSolution = searchWithHeuristicFunction(goal, queue, new Displaced(goal));
+		System.out.println("Displaced: " + evalCount);
+		evalCount = 0;
+
+		tmpSolution = searchWithHeuristicFunction(goal, queue, new DisplacedPlusTaxicabDistance(goal) );
+		System.out.println("Improved: " + evalCount);
+		evalCount = 0;
+
+		return tmpSolution;
 		// return searchActively(goal, queue);
 		// return searchDepthFirst(goal, queue, 15);
 		// return search(goal, queue);
@@ -65,6 +76,7 @@ public class PuzzleEngine {
 			this.goal = goal;
 		}
 		public int compare(PuzzleState o1, PuzzleState o2) {
+			// h(x) heuristic function
 			int unmatched_1=0, unmatched_2=0;
 			for(int i=0; i<o1.state.length; ++i) {
 				for(int j=0; j<o1.state[0].length; ++j) {
@@ -76,6 +88,7 @@ public class PuzzleEngine {
 					}
 				}
 			}
+			// f(x) actual cost to come to this state.
 			unmatched_1 += o1.history.size();
 			unmatched_2 += o2.history.size();
 			return unmatched_1 - unmatched_2;
@@ -117,10 +130,8 @@ public class PuzzleEngine {
 		}
 	}
 
-
-	public Vector searchWithHeuristicFunction(int[][] goal, Vector queue) {
-		PriorityQueue<PuzzleState> priorityQueue = new PriorityQueue<PuzzleState>(10, new DisplacedPlusTaxicabDistance(goal));
-		// PriorityQueue<PuzzleState> priorityQueue = new PriorityQueue<PuzzleState>(10, new Displaced(goal));
+	private Vector searchWithHeuristicFunction(int[][] goal, Vector queue, Comparator<PuzzleState> comparator) {
+		PriorityQueue<PuzzleState> priorityQueue = new PriorityQueue<PuzzleState>(10, comparator);
 		priorityQueue.add((PuzzleState)queue.firstElement());
 		while(!priorityQueue.isEmpty()) {
 			evalCount++;
@@ -132,13 +143,12 @@ public class PuzzleEngine {
 					PuzzleState s = priorityQueue.poll();
 					System.out.println("Comparison between " + i + " " + (i+1) + " " +
 							priorityQueue.comparator().compare(previous, s));
-					// System.out.println(previous);
-					// System.out.println(s);
+					System.out.println(previous);
+					System.out.println(s);
 					previous = s;
 					i++;
 				}
 				*/
-
 				return null;
 			}
 			PuzzleState head = priorityQueue.poll();
@@ -159,6 +169,8 @@ public class PuzzleEngine {
 					}
 				}
 				if(selected != null && s.history.size() < selected.history.size()) {
+					// The same state has existed in this queue and the new value is better.
+					// Doing this check using f(x).
 					priorityQueue.remove(selected);
 					priorityQueue.add(s);
 					selected = null;
@@ -243,11 +255,14 @@ public class PuzzleEngine {
 	public void randomize(int seed, int nStep) {
 		Random rand=new Random(seed);
 		for (int i=0; i<nStep; i++) {
-			int move=rand.nextInt(Direction.values().length);
-			PuzzleState tmp=state.nextState(Direction.values()[move]);
-			while (tmp==null) { // illegal move
+			int move;
+			PuzzleState tmp;
+			while(true) {
 				move=rand.nextInt(Direction.values().length); // choose one randomly
 				tmp=state.nextState(Direction.values()[move]);
+				if (tmp!=null) { // illegal move
+					break;
+				}
 			}
 			state=tmp;
 		}
