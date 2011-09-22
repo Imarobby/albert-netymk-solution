@@ -51,6 +51,39 @@ public class Environment {
 		floor[row][col] = true;
 	}
 
+	public boolean isSuccessful(int row, int col, Direction d) {
+		switch (d) {
+		case UP: {
+				row--;
+			break;
+		}
+		case DOWN: {
+				row++;
+			break;
+		}
+		case LEFT: {
+				col--;
+			break;
+		}
+		case RIGHT: {
+				col++;
+			break;
+		}
+		}
+		return row < Environment.HEIGHT && row >= 0 && col < Environment.WIDTH && col >= 0;
+	}
+
+	public boolean allClean() {
+		for (int i = 0; i < HEIGHT; ++i) {
+			for (int j = 0; j < WIDTH; ++j) {
+				if( !floor[i][j] ) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < HEIGHT; ++i) {

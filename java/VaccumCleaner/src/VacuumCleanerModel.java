@@ -7,7 +7,8 @@ public class VacuumCleanerModel {
 	public VacuumCleanerModel(int number) {
 		agents = new Agent[number];
 		agents[0] = new SimpleReflexAgent(new Environment());
-		agents[1] = new ModelBasedAgent2(new Environment());
+		// agents[1] = new ModelBasedAgent2(new Environment());
+		agents[1] = new SimpleReflexAgentWithRandomFunction(new Environment());
 		env = new Environment();
 	}
 

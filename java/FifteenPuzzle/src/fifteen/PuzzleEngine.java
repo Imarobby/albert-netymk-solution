@@ -56,9 +56,11 @@ public class PuzzleEngine {
 
 		Vector tmpSolution;
 
+		/*
 		tmpSolution = searchWithHeuristicFunction(goal, queue, new Displaced(goal));
 		System.out.println("Displaced: " + evalCount);
 		evalCount = 0;
+		*/
 
 		tmpSolution = searchWithHeuristicFunction(goal, queue, new DisplacedPlusTaxicabDistance(goal) );
 		System.out.println("Improved: " + evalCount);
@@ -95,9 +97,10 @@ public class PuzzleEngine {
 		}
 	}
 
-	private static class DisplacedPlusTaxicabDistance extends Displaced {
+	private static class DisplacedPlusTaxicabDistance implements Comparator<PuzzleState> {
+		private int[][] goal;
 		DisplacedPlusTaxicabDistance(int[][] goal) {
-			super(goal);
+			this.goal = goal;
 		}
 		@Override
 		public int compare(PuzzleState o1, PuzzleState o2) {
@@ -108,7 +111,8 @@ public class PuzzleEngine {
 						for(int i_i=0; i_i<goal.length; ++i_i) {
 							for(int i_j=0; i_j<goal[0].length; ++i_j) {
 								if(o1.state[i_i][i_j] == goal[i][j]) {
-									distance_1 += Math.abs(i_i - i) + Math.abs(i_j - j);
+									distance_1 += (Math.abs(i_i - i) + Math.abs(i_j - j));
+									i_i = goal.length;
 									break;
 								}
 							}
@@ -118,7 +122,8 @@ public class PuzzleEngine {
 						for(int i_i=0; i_i<goal.length; ++i_i) {
 							for(int i_j=0; i_j<goal[0].length; ++i_j) {
 								if(o2.state[i_i][i_j] == goal[i][j]) {
-									distance_2 += Math.abs(i_i - i) + Math.abs(i_j - j);
+									distance_2 += (Math.abs(i_i - i) + Math.abs(i_j - j));
+									i_i = goal.length;
 									break;
 								}
 							}
@@ -126,7 +131,10 @@ public class PuzzleEngine {
 					}
 				}
 			}
-			return super.compare(o1, o2) + distance_1 - distance_2;
+			// return super.compare(o1, o2) + distance_1 - distance_2;
+			distance_1 += o1.history.size();
+			distance_2 += o2.history.size();
+			return distance_1 - distance_2;
 		}
 	}
 
@@ -168,7 +176,8 @@ public class PuzzleEngine {
 						}
 					}
 				}
-				if(selected != null && s.history.size() < selected.history.size()) {
+				// if(selected != null && s.history.size() < selected.history.size()) {
+				if(selected != null && priorityQueue.comparator().compare(s, selected) < 0) {
 					// The same state has existed in this queue and the new value is better.
 					// Doing this check using f(x).
 					priorityQueue.remove(selected);

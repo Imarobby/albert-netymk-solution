@@ -89,7 +89,6 @@ public class PuzzleState {
 
   /** Identify and return possible "next states".
    *  Note that possible states get ordered...
-   *
    */
   PuzzleState[] expandState() {
 	ArrayList<PuzzleState> possible = new ArrayList<PuzzleState>();

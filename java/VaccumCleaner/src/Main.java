@@ -146,6 +146,9 @@ class VacuumCleanerController implements Runnable {
 				e.printStackTrace();
 			}
 		}
+		if(agent.env.allClean()) {
+			playground.update("Step: " + Agent.LIFETIME, agent.performance + 100);
+		}
 		playground.summary();
 		setTerminate(true);
 		latch.countDown();
