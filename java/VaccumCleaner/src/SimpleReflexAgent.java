@@ -7,7 +7,23 @@ public class SimpleReflexAgent extends Agent {
 		forward = true;
 	}
 
+	public void suck() {
+		System.out.println("SimpleReflex: suck");
+		super.suck();
+	}
+	
+	public boolean IsDirty() {
+		// System.out.println("SimpleReflex isDirty");
+		return super.IsDirty();
+	}
+
 	public void move() {
+		// We hard code it to go right
+		if(col < Environment.WIDTH-1) {
+			super.move();
+			col++;
+		}
+		/*
 		super.move();
 		if (forward) {
 			if (row % 2 == 0) {
@@ -66,5 +82,6 @@ public class SimpleReflexAgent extends Agent {
 			}
 			}
 		}
+		*/
 	}
 }

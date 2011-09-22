@@ -55,6 +55,7 @@ public class Main extends JFrame {
 				}
 				model.init();
 				for (VacuumCleanerView p : playgrounds) {
+					System.out.println(model.getEnvironment());
 					p.initUsingEnvironment(model.getEnvironment());
 				}
 

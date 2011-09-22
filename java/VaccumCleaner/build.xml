@@ -1,23 +1,18 @@
 <project default="compile">
     <target name="clean">
-        <delete dir="build"/>
+		<delete includeEmptyDirs="true">
+			<fileset dir="bin" includes="**/*" defaultexcludes="no" />
+		</delete>
+    </target>
+	<target name="init">
+        <mkdir dir="bin"/>
     </target>
 
-    <target name="compile">
-        <mkdir dir="build/classes"/>
-		<javac srcdir="src" destdir="build/classes"/>
-    </target>
-
-    <target name="jar" depends="compile">
-        <mkdir dir="build/jar"/>
-        <jar destfile="build/jar/VaccumCleaner.jar" basedir="build/classes">
-            <manifest>
-                <attribute name="Main-Class" value="Main$Test"/>
-            </manifest>
-        </jar>
+    <target name="compile" depends="init">
+		<javac srcdir="src" destdir="bin"/>
     </target>
 
     <target name="run" depends="compile">
-		<java classname="Main$Test" classpath="build/classes" fork="true"/>
+		<java classname="Main$Test" classpath="bin" fork="true"/>
     </target>
 </project>

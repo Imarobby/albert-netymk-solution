@@ -41,11 +41,12 @@ public class EnvironmentView extends JPanel {
 		for (int i = 0; i < height; ++i) {
 			for (int j = 0; j < width; ++j) {
 				this.env.setFloor(i, j, env.getFloor(i, j));
-				blocks[i][j].setDirty(env.getFloor(i,j));
+				blocks[i][j].setDirty(!env.getFloor(i,j));
 				blocks[i][j].removeAgent();
 			}
 		}
 		blocks[agent.row][agent.col].putAgent();
+		repaint();
 	}
 
 	public void update() {
