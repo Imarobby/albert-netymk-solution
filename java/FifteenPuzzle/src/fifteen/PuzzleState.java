@@ -94,6 +94,7 @@ public class PuzzleState {
 	ArrayList<PuzzleState> possible = new ArrayList<PuzzleState>();
 	for( Direction d : Direction.values()) {
       if (nextState(d)!=null &&(history.isEmpty() || !isPreviousState(d))) {
+      // if (nextState(d)!=null) {
 		  possible.add(nextState(d));
 	  }
 	}

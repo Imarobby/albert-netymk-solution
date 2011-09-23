@@ -14,8 +14,9 @@ import java.applet.*;
  */
 
 public class PuzzleApplet extends Applet {
-	final private static int MAXTEST = 15;
-  int shuffleSeed=17;    // the seed to use for randomizing shuffle
+	final private static int MAXTEST = 10;
+  // int shuffleSeed=17;    // the seed to use for randomizing shuffle
+  int shuffleSeed=0;    // the seed to use for randomizing shuffle
   int shuffleSteps=10;  // how many attempted random moves in each shuffle
   boolean isStandalone = false;
   Panel panelSolve = new Panel();

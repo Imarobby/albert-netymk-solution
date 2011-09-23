@@ -51,6 +51,15 @@ public class PuzzlePanel extends Panel {
     return nNodes;
   }
 
+  public void puzzleToString() {
+	  for(int i=0; i<puzzle.length; ++i) {
+		  for(int j=0; j<puzzle[0].length; ++j) {
+			  System.out.print(puzzle[i][j] + "\t");
+		  }
+		  System.out.println();
+	  }
+  }
+
   /** take a step towards the current solution
    *  Updates the current puzzle state
    *  @return int number of steps remaining after step taken

@@ -56,14 +56,20 @@ public class PuzzleEngine {
 
 		Vector tmpSolution;
 
-		/*
 		tmpSolution = searchWithHeuristicFunction(goal, queue, new Displaced(goal));
-		System.out.println("Displaced: " + evalCount);
+		if(tmpSolution != null) {
+			System.out.println("Displaced: Evaluation time: " + evalCount + " Level: " + tmpSolution.size());
+		} else {
+			System.out.println("Displaced: Evaluation time: " + evalCount + " Aborted");
+		}
 		evalCount = 0;
-		*/
 
 		tmpSolution = searchWithHeuristicFunction(goal, queue, new DisplacedPlusTaxicabDistance(goal) );
-		System.out.println("Improved: " + evalCount);
+		if(tmpSolution != null) {
+			System.out.println("Improved: Evaluation time: " + evalCount + " Level: " + tmpSolution.size());
+		} else {
+			System.out.println("Improved: Evaluation time: " + evalCount + " Aborted");
+		}
 		evalCount = 0;
 
 		return tmpSolution;
@@ -99,12 +105,18 @@ public class PuzzleEngine {
 
 	private static class DisplacedPlusTaxicabDistance implements Comparator<PuzzleState> {
 		private int[][] goal;
+		private int distance_1=0;
+		private int distance_2=0;
 		DisplacedPlusTaxicabDistance(int[][] goal) {
 			this.goal = goal;
 		}
+
+		public int getDistance_1() {
+			return distance_1;
+		}
 		@Override
 		public int compare(PuzzleState o1, PuzzleState o2) {
-			int distance_1=0, distance_2=0;
+			distance_1=0; distance_2=0;
 			for(int i=0; i<o1.state.length; ++i) {
 				for(int j=0; j<o1.state[0].length; ++j) {
 					if(o1.state[i][j] != goal[i][j]) {
@@ -138,6 +150,13 @@ public class PuzzleEngine {
 		}
 	}
 
+	private static void printPriorityQueue(PriorityQueue<PuzzleState> queue) {
+		Queue<PuzzleState> q = new PriorityQueue<PuzzleState>(queue);
+		while(!q.isEmpty()) {
+			System.out.println(q.poll());
+		}
+	}
+
 	private Vector searchWithHeuristicFunction(int[][] goal, Vector queue, Comparator<PuzzleState> comparator) {
 		PriorityQueue<PuzzleState> priorityQueue = new PriorityQueue<PuzzleState>(10, comparator);
 		priorityQueue.add((PuzzleState)queue.firstElement());
@@ -159,14 +178,40 @@ public class PuzzleEngine {
 				*/
 				return null;
 			}
-			PuzzleState head = priorityQueue.poll();
+			PuzzleState head = priorityQueue.peek();
 			if(head.goal(goal)) {
+				/*
+				int i = 1;
+				PuzzleState previous = priorityQueue.poll();
+				while(!priorityQueue.isEmpty()) {
+					PuzzleState s = priorityQueue.poll();
+					System.out.println(previous);
+					DisplacedPlusTaxicabDistance tmp = (DisplacedPlusTaxicabDistance)priorityQueue.comparator();
+					tmp.compare(previous, s);
+					System.out.println("Distance is " + tmp.getDistance_1());
+					// System.out.println(previous);
+					// System.out.println(s);
+					previous = s;
+					i++;
+				}
+				*/
 				return solution = head.history;
 			}
+			/*
+			// if(priorityQueue.size() <= 10) {
+			if(priorityQueue.size() == 3) {
+				System.out.println("head is\n" + head);
+				System.out.println("new nodes are " + head.expandState().length);
+				printPriorityQueue(priorityQueue);
+			}
+			*/
+			priorityQueue.poll();
 			if(evalCount % 100 == 0) {
 				label.setText("#states: " + evalCount + " level: " + head.history.size());
 			}
+			// System.out.println("eval " + evalCount);
 			for(PuzzleState s : head.expandState()) {
+			// 	System.out.println(s);
 				PuzzleState selected = null;
 				if(priorityQueue.contains(s)) {
 					for(PuzzleState sInQueue : priorityQueue) {
@@ -187,6 +232,7 @@ public class PuzzleEngine {
 					priorityQueue.add(s);
 				}
 			}
+			// System.out.println("Size of queue :" + priorityQueue.size());
 		}
 		return null;
 	}
