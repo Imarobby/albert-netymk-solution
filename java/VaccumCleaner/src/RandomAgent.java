@@ -39,7 +39,7 @@ public class RandomAgent extends Agent {
 			RandomAgent agent = new RandomAgent(env);
 			System.out.println(env.toString());
 			for (int i = 0; i < 100; ++i) {
-				if (agent.IsDirty()) {
+				if (agent.isDirty()) {
 					agent.suck();
 				} else {
 					System.out.println("Row: " + agent.row + " Column: "

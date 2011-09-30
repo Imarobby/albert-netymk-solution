@@ -1,5 +1,5 @@
 public class SimpleReflexAgentWithRandomFunction extends Agent {
-	// One direction is randomizedly selected every period.
+	// One direction is randomly selected every period or this agent gets bumped.
 	private static final int period = 5;
 	private int periodInstance;
 	private boolean bumped;
@@ -13,20 +13,20 @@ public class SimpleReflexAgentWithRandomFunction extends Agent {
 	}
 
 	private void updatePosition(Direction d) {
-				switch(d) {
-					case UP:
-						row--;
-						break;
-					case DOWN:
-						row++;
-						break;
-					case LEFT:
-						col--;
-						break;
-					case RIGHT:
-						col++;
-						break;
-				}
+		switch(d) {
+			case UP:
+				row--;
+				break;
+			case DOWN:
+				row++;
+				break;
+			case LEFT:
+				col--;
+				break;
+			case RIGHT:
+				col++;
+				break;
+		}
 	}
 
 	public void move() {

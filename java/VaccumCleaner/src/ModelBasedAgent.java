@@ -1,8 +1,8 @@
-public class ModelBasedAgent2 extends Agent {
+public class ModelBasedAgent extends Agent {
 	private boolean[][] model;
 	private boolean finished;
 
-	public ModelBasedAgent2(Environment env) {
+	public ModelBasedAgent(Environment env) {
 		super(env);
 		finished = false;
 		model = new boolean[Environment.HEIGHT][Environment.WIDTH];
@@ -32,9 +32,9 @@ public class ModelBasedAgent2 extends Agent {
 		}
 	}
 
-	public boolean IsDirty() {
+	public boolean isDirty() {
 		model[row][col] = true;
-		return super.IsDirty();
+		return super.isDirty();
 	}
 
 	public String getModel() {
@@ -101,11 +101,11 @@ public class ModelBasedAgent2 extends Agent {
 	public static class Test {
 		public static void main(String[] args) {
 			Environment env = new Environment();
-			Agent agent = new ModelBasedAgent2(env);
+			Agent agent = new ModelBasedAgent(env);
 			System.out.println(env.toString());
 
 			for (int i = 0; i < 100; ++i) {
-				if (agent.IsDirty()) {
+				if (agent.isDirty()) {
 					agent.suck();
 				} else {
 					System.out.println("Row: " + agent.row + " Column: "

@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class Agent {
 	protected static Random rand = new Random();
-	protected final static int LIFETIME = 100;
+	protected final static int LIFETIME = 200;
 	protected Environment env;
 	// The position of the agent.
 	protected int row, col;
@@ -41,8 +41,8 @@ public class Agent {
 		return finished;
 	}
 
-	public boolean IsDirty() {
-		return env.IsDirty(row, col);
+	public boolean isDirty() {
+		return env.isDirty(row, col);
 	}
 
 	public void suck() {

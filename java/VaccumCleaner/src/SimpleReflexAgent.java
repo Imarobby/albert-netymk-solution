@@ -1,14 +1,6 @@
 public class SimpleReflexAgent extends Agent {
-	private Direction dir;
-	private boolean forward;
-
 	public SimpleReflexAgent(Environment env) {
 		super(env);
-		forward = true;
-	}
-
-	public boolean IsDirty() {
-		return super.IsDirty();
 	}
 
 	public void move() {

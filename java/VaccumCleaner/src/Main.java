@@ -55,7 +55,6 @@ public class Main extends JFrame {
 				}
 				model.init();
 				for (VacuumCleanerView p : playgrounds) {
-					System.out.println(model.getEnvironment());
 					p.initUsingEnvironment(model.getEnvironment());
 				}
 
@@ -131,7 +130,7 @@ class VacuumCleanerController implements Runnable {
 			if (getTerminate()) {
 				break;
 			}
-			if (agent.IsDirty()) {
+			if (agent.isDirty()) {
 				agent.suck();
 			} else {
 				agent.move();

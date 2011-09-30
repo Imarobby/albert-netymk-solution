@@ -1,9 +1,11 @@
 import java.util.Random;
+import java.util.Observer;
+import java.util.Observable;
 
-public class Environment {
+public class Environment extends Observable {
 	final public static int HEIGHT = 4;
 	final public static int WIDTH = 4;
-	final private static Random rand = new Random();
+	final public static Random rand = new Random();
 
 	public static Environment copy(Environment env) {
 		Environment result = new Environment();
@@ -31,6 +33,16 @@ public class Environment {
 		return floor[i][j];
 	}
 
+	public void setDirty(int i, int j) {
+		setFloor(i,j, false);
+		if(countObservers() > 0) {
+			// notifyObservers({i, j});
+			int[] tmpArray = {i, j};
+			setChanged();
+			notifyObservers(tmpArray);
+		}
+	}
+
 	public void setFloor(int i, int j, boolean f) {
 		floor[i][j] = f;
 	}
@@ -43,7 +55,7 @@ public class Environment {
 		}
 	}
 
-	public boolean IsDirty(int row, int col) {
+	public boolean isDirty(int row, int col) {
 		return !floor[row][col];
 	}
 

@@ -1,3 +1,6 @@
+import java.util.Observer;
+import java.util.Observable;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -6,7 +9,7 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
-public class EnvironmentView extends JPanel {
+public class EnvironmentView extends JPanel implements Observer {
 	private static double scale = 0.8;
 	private Environment env;
 	private Agent agent;
@@ -21,6 +24,7 @@ public class EnvironmentView extends JPanel {
 		height = Environment.HEIGHT;
 		width = Environment.WIDTH;
 		this.env = agent.env;
+		this.env.addObserver(this);
 		this.agent = agent;
 		blocks = new Block[height][width];
 		setLayout(new GridLayout(height, width, 2, 2));
@@ -28,8 +32,7 @@ public class EnvironmentView extends JPanel {
 
 		for (int i = 0; i < height; ++i) {
 			for (int j = 0; j < width; ++j) {
-				blocks[i][j] = new Block(agent.row == i && agent.col == j, env
-						.IsDirty(i, j));
+				blocks[i][j] = new Block(agent.row == i && agent.col == j, !env.getFloor(i, j));
 				add(blocks[i][j]);
 			}
 		}
@@ -49,8 +52,14 @@ public class EnvironmentView extends JPanel {
 		repaint();
 	}
 
+	@Override
+	public void update(Observable o, Object arg) {
+		int[] tmpArray = (int[])arg;
+		blocks[tmpArray[0]][tmpArray[1]].setDirty(true);
+	}
+
 	public void update() {
-		blocks[agent.oldRow][agent.oldCol].setDirty(env.IsDirty(agent.oldRow, agent.oldCol));
+		blocks[agent.oldRow][agent.oldCol].setDirty(!env.getFloor(agent.oldRow, agent.oldCol));
 		blocks[agent.oldRow][agent.oldCol].removeAgent();
 		blocks[agent.row][agent.col].putAgent();
 	}
