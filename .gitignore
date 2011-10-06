@@ -2,6 +2,16 @@
 bin/
 build/
 
+# latex compiled files
+*.aux
+*.pdf
+*.lot
+*.lof
+*.toc
+*.snm
+*.dvi
+*.nav
+
 # Compiled source #
 ###################
 *.com
@@ -9,6 +19,7 @@ build/
 *.dll
 *.exe
 *.o
+*.out
 *.so
 
 # Packages #
