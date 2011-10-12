@@ -6,7 +6,7 @@ use warnings;
 my $lineNumber = 1;
 my $fileName;
 while(<>) {
-	# get rid of the prefix
+	# get rid of the prefix; the absolute path name
 	$ARGV =~ s!(.*)/!!;
 	print $ARGV, " ", $lineNumber;
 	print ": $_";
