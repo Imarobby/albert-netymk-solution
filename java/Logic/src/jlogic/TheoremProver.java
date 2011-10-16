@@ -187,6 +187,14 @@ public class TheoremProver {
     axioms.add(tmp);
   }
 
+  public void removeClause(Clause clause) {
+	  for(Object o : axioms) {
+		  if(o.toString().equals(clause.toString())) {
+			  axioms.remove(o);
+		  }
+	  }
+  }
+
   Substitution chain(Clause goal, Clause clause, Clause resolvent) {
     Predicate head;
     Iterator it;
@@ -265,5 +273,11 @@ public class TheoremProver {
 		*/
     depth = 0;
     return _prove(goal);
+  }
+
+  public void printAxioms() {
+	  for(Object o : axioms) {
+		  System.out.println(o);
+	  }
   }
 }

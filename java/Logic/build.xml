@@ -15,4 +15,8 @@
     <target name="run" depends="compile">
 		<java classname="jlogic.Example" classpath="bin" fork="true"/>
     </target>
+
+    <target name="block" depends="compile">
+		<java classname="jlogic.Block" classpath="bin" fork="true"/>
+    </target>
 </project>
