@@ -1,7 +1,7 @@
 <project default="compile">
     <target name="clean">
 		<delete includeEmptyDirs="true">
-			<fileset dir="bin" includes="**/*" defaultsexclude="no" />
+			<fileset dir="bin" includes="**/*" defaultexcludes="no" />
 		</delete>
     </target>
 
@@ -14,6 +14,10 @@
     </target>
 
     <target name="run" depends="compile">
-		<java classpath="bin" classname="Test" fork="yes"/>
+		<java classpath="bin" classname="nn.AppDigits" fork="yes"/>
+    </target>
+
+    <target name="train" depends="compile">
+		<java classpath="bin" classname="nn.AppTrain" fork="yes"/>
     </target>
 </project>

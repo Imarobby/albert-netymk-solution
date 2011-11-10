@@ -44,6 +44,7 @@ public class Block {
 			engine.addClause(new Clause( new Predicate("below", new Term[] { src, new Constant("Nothing") })));
 		}
 	}
+
 	public static void main(String[] args) {
 		// ontop(X) <- above(Nothing, X)
 		engine.addClause(new Clause(
@@ -52,6 +53,7 @@ public class Block {
 						new Term[] { new Constant("Nothing"), new Variable("X") } ) }
 					)
 				);
+		// TODO Is it OK to introduce such auxilary function?
 		// above(X, Y) <- below(Y, X)
 		engine.addClause(new Clause(
 					new Predicate("above", new Term[] { new Variable("X"), new Variable("Y") }),
