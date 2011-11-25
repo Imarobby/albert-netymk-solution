@@ -5,6 +5,9 @@ build/
 # vim swap file
 *.swp
 
+# ctags
+tags
+
 # latex compiled files
 *.aux
 *.pdf

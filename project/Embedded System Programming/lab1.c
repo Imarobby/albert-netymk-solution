@@ -60,6 +60,10 @@ void DRCLR(int pos)
 
 void writeChar(char ch, int pos)
 {
+	while(ch > 9) {
+		// Decimal
+		ch -= 10;
+	}
 	DRCLR(pos);
 	switch (pos) {
 	case 0:
@@ -115,12 +119,12 @@ void prime()
 {
 	for (long i = 2; i < 999999; i++) {
 		if (is_prime(i)) {
-			writelong(i);
+			writeLong(i);
 		}
 	}
 }
 
-void writelong(long x)
+void writeLong(long x)
 {
 	int i;
 	int bit;
@@ -169,7 +173,7 @@ void puttogether()
 				break;
 			}
 			if (flag == 0) {
-				writelong(i);
+				writeLong(i);
 			}
 		}
 	}

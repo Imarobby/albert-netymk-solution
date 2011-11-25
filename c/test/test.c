@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <pthread.h>
+
+// #define STARTUP(stmt) int main(){ stmt; }
+
+// STARTUP(printf("helloworld\n");return 0;);
 
 int main() {
-	int numerator = 
+	printf("Hel");
+
 	return 0;
 }

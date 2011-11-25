@@ -101,8 +101,7 @@ exception create_task(void(*task_body)(), uint deadline)
 		// disable interrupts
 		isr_off();
 		SaveContext();
-		if(first)
-		{
+		if(first) {
 			//set not first execution
 			first = 0;
 			if(insertR(readylist, task) == FAIL) {

@@ -20,8 +20,6 @@ struct thread_block {
     char stack[STACKSIZE];   // execution stack space
 };
 
-
-
 struct thread_block threads[NTHREADS];
 
 struct thread_block initp;
@@ -37,7 +35,6 @@ static void initialize(void) {
     for (i=0; i<NTHREADS-1; i++)
         threads[i].next = &threads[i+1];
     threads[NTHREADS-1].next = NULL;
-
 
     initialized = 1;
 }
@@ -84,6 +81,7 @@ void spawn(void (* function)(int), int arg) {
     newp->next = NULL;
     if (setjmp(newp->context) == 1) {
         ENABLE();
+		// Run current thread.
         current->function(current->arg);
         DISABLE();
         enqueue(current, &freeQ);
@@ -96,13 +94,29 @@ void spawn(void (* function)(int), int arg) {
 }
 
 void yield(void) {
-
+	DISABLE();
+	enqueue(current, &readyQ);
+	dispatch(dequeue(&readyQ));
+	ENABLE();
 }
 
 void lock(mutex *m) {
-
+	while(1) {
+		DISABLE();
+		if(m->locked == LOCKED) {
+			yield();
+		} else {
+			break;
+		}
+		ENABLE();
+	}
+	DISABLE();
+	m->locked = LOCKED;
+	ENABLE();
 }
 
 void unlock(mutex *m) {
-
+	DISABLE();
+	m->locked = UNLOCKED;
+	ENABLE();
 }
