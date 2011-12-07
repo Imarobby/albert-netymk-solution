@@ -1,11 +1,21 @@
 #include "blinker.h"
 
-int startBlinking(Blinker *self, int nothing)
+static void blink(Blinker *self, int flag)
 {
 	if(self->period > 0) {
-		blink();
-		AFTER(SEC(self->period), self, blink, nothing);
+		if(flag) {
+			SYNC(self->lcd, segmentOn, self->segment);
+		} else {
+			SYNC(self->lcd, segmentOff, self->segment);
+		}
+		AFTER(MSEC(self->period), self, blink, !flag);
+		// BEFORE(MSEC(self->period), self, blink, nothing);
 	}
+}
+
+int startBlinking(Blinker *self, int nothing)
+{
+	blink(self, NOTHING);
 }
 
 int stopBlinking(Blinker *self, int nothing)
@@ -16,9 +26,4 @@ int stopBlinking(Blinker *self, int nothing)
 int setPeriod(Blinker *self, int period)
 {
 	self->period = period;
-}
-
-static void blink(Blinker *self, int nothing)
-{
-	*(self->segment) = ! *(self->segment);
 }

@@ -28,6 +28,8 @@ typedef struct msg_block *Msg;
 //      Unit value of type Msg
 #define NullMsg \
         (Msg)0
+// More readable when the second argument is not used.
+#define NOTHING 0
 
 //      Base type for methods. Every method in a TinyTimber system should take 
 //      a first argument that is a subclass of class Object.

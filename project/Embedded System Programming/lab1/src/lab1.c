@@ -1,6 +1,7 @@
 #include <avr/io.h>
+#include "lab1.h"
 
-int Flag_blink = 0;
+static int Flag_blink = 0;
 
 int num[10][4] = { { 0x1, 0x5, 0x5, 0x1 },
 		   { 0x0, 0x1, 0x1, 0x0 },
@@ -13,7 +14,7 @@ int num[10][4] = { { 0x1, 0x5, 0x5, 0x1 },
 		   { 0x1, 0x5, 0xF, 0x1 },
 		   { 0x1, 0x5, 0xB, 0x1 } };
 
-void DRCLR(int pos)
+static void DRCLR(int pos)
 {
 	if (pos == 0) {
 		LCDDR2 &= 0x0f;
@@ -138,7 +139,7 @@ void writeLong(long x)
 
 void blink()
 {
-	if (TCNT1 >= 16384) {
+	if (TCNT1 >= 16384*2) {
 		Flag_blink = !Flag_blink;
 		if (Flag_blink == 0) {
 			LCDDR8 = 0x00;
@@ -181,12 +182,15 @@ void puttogether()
 
 int main()
 {
+	// Initialization
 	LCDCRA = 0x80;
 	LCDCRB = 0xb7;
 	TCCR1B = 0x04;
 	PORTB |= 0x80;
 
+	writeChar(0, 0);
+
 	while (1) {
-		puttogether();
+		blink();
 	}
 }

@@ -1,7 +1,7 @@
 #include <setjmp.h>
-// #include <avr/io.h>
-// #include <avr/interrupt.h>
-// #include <avr/signal.h>
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <avr/signal.h>
 #include "tinythreads.h"
 
 #define NULL            0

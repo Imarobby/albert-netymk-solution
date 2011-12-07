@@ -1,5 +1,10 @@
-#include "TinyTimber.h"
 #include <avr/io.h>
+#include "lcd.h"
+#include "primes.h"
+#include "blinker.h"
+#include "button.h"
+#include "sound.h"
+
 /* 
 
 This file is just for you to check that you can compile a program
@@ -38,8 +43,27 @@ int showAll(Is *self, int nothing){
 }
 // end of what you would have in the reactive object .c
 
-
-
 //  This is the application:
-Is is = initIs();
-STARTUP(CONFLCD;ASYNC(&is,showAll,0););
+// Is is = initIs();
+// STARTUP(CONFLCD;ASYNC(&is,showAll,0););
+// LCD lcd = initLCD();
+// PrimeCalculator calculator = initPrimeCalculator(&lcd);
+// Blinker blinker = initBlinker(&lcd, 13, 500);
+// Button joystick = initButton(&lcd);
+// STARTUP(CONFLCD;
+// 		CONFJOY;
+// 		ASYNC(&blinker,startBlinking,NOTHING);
+// 		ASYNC(&calculator, primes, NOTHING);
+// 		ASYNC(&lcd, writeDigit, NOTHING);
+// 		);
+// INTERRUPT(SIG_PIN_CHANGE1, SYNC(&joystick, button, NOTHING));
+LCD lcd = initLCD();
+Piezo piezo = initPiezo();
+// TODO if the frequency is too small, the system crashes. Quite
+// weird.
+Sound sound = initSound(&piezo, 40);
+STARTUP(CONFLCD;
+ 		CONFPIEZO;
+ 		ASYNC(&sound, play, NOTHING);
+// 		ASYNC(&piezo, testPiezo, NOTHING);
+ 	   );

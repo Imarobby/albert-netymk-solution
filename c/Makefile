@@ -1,5 +1,6 @@
 MCU = atmega169
-TARGET = lab1
+TARGET = target
+MAKEFILE = /home/albertnet/workspace/c/Makefile
 
 SRCDIR=src
 IDIR=/usr/lib/avr/include
@@ -10,13 +11,14 @@ SOURCES = $(notdir $(wildcard $(SRCDIR)/*))
 OBJECTS = $(addprefix $(OUTPUTDIR)/,$(subst .c,.o,$(SOURCES)))
 
 CPPFLAGS +=-I/usr/lib/avr/include -Iinclude
-COMPILEOPTION=-mmcu=$(MCU) $(CPPFLAGS) -std=c99
-LINKOPTION=-mmcu=$(MCU)
+COMPILEOPTION=-mmcu=$(MCU) $(CPPFLAGS) -std=c99 -Os
+LINKOPTION=-mmcu=$(MCU) -Os
 
 CC=avr-gcc
 OBJCOPY=avr-objcopy
 SORT=sort
 AWK=awk
+CAT=cat
 
 vpath %.c src
 vpath %.h include
@@ -31,28 +33,27 @@ $(OUTPUTDIR)/$(TARGET).hex: $(OUTPUTDIR)/$(TARGET).out
 	$(OBJCOPY) -O ihex -R .eeprom $< $@
 
 $(OUTPUTDIR)/$(TARGET).out : $(OBJECTS)
-	$(CC) $(LINKOPTION) $^ -L$(LIBDIR) -o $@
+	#$(CC) $(LINKOPTION) $^ -L$(LIBDIR) -o $@
+	$(CC) $(LINKOPTION) $^ -lm -o $@
 
 $(OUTPUTDIR)/%.o : %.c
 	$(CC) -c $(COMPILEOPTION) $< -o $@
-
-ifneq "$(MAKECMDGOALS)" "clean"
-  ifneq "$(MAKECMDGOALS)" "help"
-   #$(warning goal is $(MAKECMDGOALS))
-    -include $(shell mkdir $(DENDIR) 2>/dev/null) $(addprefix $(DENDIR)/,$(subst .c,.d,$(SOURCES)))
-  endif
-endif
 
 $(DENDIR)/%.d : %.c
 	$(CC) -M $(CPPFLAGS) $< > $@.$$$$; \
 	sed 's!\($*\)\.o[ :]*!\1.o $@ : !g' < $@.$$$$ > $@; \
 	$(RM) -f $@.$$$$
 
+ifneq "$(strip $(MAKECMDGOALS))" "help"
+ifneq "$(strip $(MAKECMDGOALS))" "clean"
+-include $(shell mkdir $(DENDIR) 2>/dev/null) $(addprefix $(DENDIR)/,$(subst .c,.d,$(SOURCES)))
+endif
+endif
+
 .PHONY: clean
 clean:
 	rm -rf $(OUTPUTDIR)/*
 
-
 .PHONY: help
 help:
-	$(MAKE) --print-data-base --question | $(AWK) '/^[^.%][-A-Za-z0-9_]*:/ { print substr($$1, 1, length($$1)-1) }' | $(SORT)
+	@$(CAT) "$(MAKEFILE)" | $(AWK) '/^[^.%][-A-Za-z0-9_]*:/ { print substr($$1, 1, length($$1)-1) }' | $(SORT)

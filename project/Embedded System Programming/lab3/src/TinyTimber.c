@@ -258,6 +258,7 @@ INLINE_2 void schedule()
 	irqstatus = 1;
 	Msg curMsg = activeStack->msg;
 	if (msgQ && threadPool && ((!curMsg) || (msgQ->deadline - curMsg->deadline < 0))) {
+	// if (threadPool && ((!curMsg) || (msgQ->deadline - curMsg->deadline < 0))) {
 		push(pop(&threadPool), &activeStack);
 		dispatch(activeStack);
 	}

@@ -9,8 +9,8 @@ LINE: while(<>) {
 	s///;
 	# it is possible that the function declaration extends two lines
 	if($flag != 1) {
-		if(/^\w[^;]*\)?$/) {
-			if(/^[(static)]/) {
+		if(/^\w[^;=]*\)?$/) {
+			if(/^(static)/) {
 				# omit the private function declaration
 				next LINE;
 			}
