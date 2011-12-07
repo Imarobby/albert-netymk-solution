@@ -1,5 +1,6 @@
 # executable directory
 bin/
+obj/
 build/
 
 # vim swap file

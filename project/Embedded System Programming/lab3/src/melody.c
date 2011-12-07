@@ -12,7 +12,7 @@
 #define x 500
 #define y 250
 #define z 1250
-#define s 2000
+#define SS 2000
 #define t 1500
 
 static int freq[50] = {e, e, e, e, e, e, e, f, f, f,
@@ -25,14 +25,21 @@ static int duration[50] = {x, x, x, x, x, y, z, x, x, x,
 	x, x, y, z, x, x, x, x, x, y,
 	z, x, x, x, x, x, y, z, x, x, 
 	x, x, x, y, z, x, x, x, x, x, 
-	y, z, s, s, t, x, t, x, x, t};
+	y, z, SS, SS, t, x, t, x, x, t};
 
 
 void playDiana(Melody *self, int index)
 {
+	if(index == 50) {
+		index = 0;
+	}
 	SYNC(self->s, setStatus, 1);
 	SYNC(self->s, changeFrequency, freq[index]);
-	AFTER(RESOLUTION(0), self->s, play, NOTHING);
+	// SYNC(self->s, changeFrequency, 400);
+	// SYNC(self->s, play, NOTHING);
+	ASYNC(self->s, play, NOTHING);
 	AFTER(RESOLUTION(duration[index]), self->s, setStatus, 0);
-	AFTER(MSEC(10), self, playDiana, index+1);
+	// AFTER(RESOLUTION(31250), self->s, setStatus, 0);
+	AFTER(MSEC(50), self, playDiana, index+1);
+	//AFTER(MSEC(10), self, playDiana, 0);
 }

@@ -4,6 +4,7 @@
 #include "blinker.h"
 #include "button.h"
 #include "sound.h"
+#include "melody.h"
 
 /* 
 
@@ -61,9 +62,15 @@ LCD lcd = initLCD();
 Piezo piezo = initPiezo();
 // TODO if the frequency is too small, the system crashes. Quite
 // weird.
-Sound sound = initSound(&piezo, 40);
+Sound sound = initSound(&piezo, 100);
+Melody melody = initMelody(&sound); 
 STARTUP(CONFLCD;
  		CONFPIEZO;
- 		ASYNC(&sound, play, NOTHING);
-// 		ASYNC(&piezo, testPiezo, NOTHING);
+ 		// ASYNC(&sound, play, NOTHING);
+		// ASYNC(&lcd, writeInt, 1);
+ 		//ASYNC(&piezo, testPiezo, NOTHING);
+		//ASYNC(&lcd, segmentOn, 13);
+		
+		
+		ASYNC(&melody, playDiana, 0);
  	   );

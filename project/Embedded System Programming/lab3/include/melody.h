@@ -11,4 +11,5 @@ typedef struct {
 
 #define initMelody(s) { initObject(), s }
 
+void playDiana(Melody *self, int index);
 #endif

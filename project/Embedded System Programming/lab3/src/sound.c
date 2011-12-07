@@ -8,11 +8,11 @@ void changeFrequency(Sound *self, int freq)
 void play(Sound *self, int nothing)
 {
 	if(self->status) {
-		AFTER(RESOLUTION(0), self->p, turnOn, 0);
-		AFTER(RESOLUTION(31250/(self->f)), self->p, turnOff, 0);
+		AFTER(RESOLUTION(0), self->p, turnOn, NOTHING);
+		AFTER(RESOLUTION(31250/(self->f)), self->p, turnOff, NOTHING);
 		// WITHIN(RESOLUTION(0), RESOLUTION(31250/(self->f)), self->p, turnOn, 0);
 		// WITHIN(RESOLUTION(31250/(self->f)), RESOLUTION(2*31250/(self->f)), self->p, turnOff, 0);
-		AFTER(RESOLUTION(2 * 31250 /(self->f)), self, play, 0);
+		AFTER(2*RESOLUTION(31250/(self->f)), self, play, 0);
 	}
 }
 
