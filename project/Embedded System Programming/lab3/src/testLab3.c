@@ -62,6 +62,9 @@ LCD lcd = initLCD();
 Piezo piezo = initPiezo();
 // TODO if the frequency is too small, the system crashes. Quite
 // weird.
+PrimeCalculator calculator = initPrimeCalculator(&lcd);
+
+
 Sound sound = initSound(&piezo, 100);
 Melody melody = initMelody(&sound); 
 STARTUP(CONFLCD;
@@ -70,7 +73,6 @@ STARTUP(CONFLCD;
 		// ASYNC(&lcd, writeInt, 1);
  		//ASYNC(&piezo, testPiezo, NOTHING);
 		//ASYNC(&lcd, segmentOn, 13);
-		
-		
 		ASYNC(&melody, playDiana, 0);
+		ASYNC(&calculator, primes, 2);
  	   );

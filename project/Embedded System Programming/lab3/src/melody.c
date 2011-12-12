@@ -35,11 +35,7 @@ void playDiana(Melody *self, int index)
 	}
 	SYNC(self->s, setStatus, 1);
 	SYNC(self->s, changeFrequency, freq[index]);
-	// SYNC(self->s, changeFrequency, 400);
-	// SYNC(self->s, play, NOTHING);
 	ASYNC(self->s, play, NOTHING);
-	AFTER(RESOLUTION(duration[index]), self->s, setStatus, 0);
-	// AFTER(RESOLUTION(31250), self->s, setStatus, 0);
-	AFTER(MSEC(50), self, playDiana, index+1);
-	//AFTER(MSEC(10), self, playDiana, 0);
+	AFTER(MSEC(duration[index]), self->s, setStatus, 0);
+	AFTER(MSEC(duration[index] + 10), self, playDiana, index+1);
 }
