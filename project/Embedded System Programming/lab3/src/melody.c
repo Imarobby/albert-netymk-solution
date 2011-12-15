@@ -42,7 +42,8 @@ void playDianaNonStop(Melody *self, int index)
 
 /**
  * This method works the best, for it's the hacked version. It takes
- * the advantage of this particular architecture.
+ * the advantage of this particular architecture. Therefore, it's
+ * not very readable.
  */
 void playDianaHacked(Melody *self, int index)
 {
@@ -84,10 +85,15 @@ static void playDianaHackedRecursion(Melody *self, int index)
 	if(index == 50) {
 		index = 0;
 	}
+	// Priority. Has to be "BEFORE".
 	BEFORE(MSEC(duration[index]), self->s, setFrequency, freq[index]);
 	BEFORE(MSEC(duration[index]), self->s, setStatus, 1);
 
-	WITHIN(MSEC(duration[index]), MSEC(10), self->s, setStatus, 0);
+	// I can't perceive the difference between WITHIN and AFTER in
+	// here.
+	// WITHIN(MSEC(duration[index]), MSEC(10), self->s, setStatus, 0);
+	AFTER(MSEC(duration[index]), self->s, setStatus, 0);
+
 	AFTER(MSEC(duration[index] + 10), self, playDianaHackedRecursion, index+1);
 }
 

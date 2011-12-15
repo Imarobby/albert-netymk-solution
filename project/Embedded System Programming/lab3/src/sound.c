@@ -19,19 +19,27 @@ void play(Sound *self, int freq)
 
 /**
  * The only difference between the hacked version and the normal one
- * is that this method will hog the thread forever, which eliminates
- * the unnecessary relinquishing and reassigning of this thread.
+ * is that this method will hog the thread "forever", for it has
+ * higher priority, which eliminates the possible inefficient of
+ * threads. 
+ * Putting the recursion call out of the if condition will ensure that
+ * there will always be one message in the queue, which further
+ * ensures that this method will get the thread before the prime
+ * method.
  */
 void playHacked(Sound *self, int state)
 {
 	if(self->status) {
 		if(state) {
-			BEFORE(RESOLUTION(31250/(self->f))/2, self->p, turnOn, 0);
+			ASYNC(self->p, turnOn, 0);
 		} else {
-			BEFORE(RESOLUTION(31250/(self->f))/2, self->p, turnOff, 0);
+			ASYNC(self->p, turnOff, 0);
 		}
 	}
-	WITHIN(RESOLUTION(31250/(self->f)), MSEC(10), self, playHacked, !state);
+	// Use deadline to increase the priority.
+	// AFTER(RESOLUTION(31250/(self->f))/2, self, playHacked, !state);
+	WITHIN(RESOLUTION(31250/(self->f))/2, MSEC(10), self, 
+			playHacked, !state);
 }
 
 void playRecursion(Sound *self, int state)
@@ -42,6 +50,7 @@ void playRecursion(Sound *self, int state)
 		} else {
 			BEFORE(RESOLUTION(31250/(self->f))/2, self->p, turnOff, 0);
 		}
-		WITHIN(RESOLUTION(31250/(self->f)), MSEC(10), self, playRecursion, !state);
+		WITHIN(RESOLUTION(31250/(self->f)), MSEC(10), 
+				self, playRecursion, !state);
 	}
 }
