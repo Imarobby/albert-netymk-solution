@@ -1,7 +1,7 @@
 #include <avr/io.h>
 #include "lcd.h"
 #include "primes.h"
-#include "blinker.h"
+// #include "blinker.h"
 #include "button.h"
 #include "sound.h"
 #include "melody.h"
@@ -60,10 +60,7 @@ int showAll(Is *self, int nothing){
 // INTERRUPT(SIG_PIN_CHANGE1, SYNC(&joystick, button, NOTHING));
 LCD lcd = initLCD();
 Piezo piezo = initPiezo();
-// TODO if the frequency is too small, the system crashes. Quite
-// weird.
 PrimeCalculator calculator = initPrimeCalculator(&lcd);
-
 
 Sound sound = initSound(&piezo, 100);
 Melody melody = initMelody(&sound); 
@@ -71,8 +68,10 @@ STARTUP(CONFLCD;
  		CONFPIEZO;
  		// ASYNC(&sound, play, NOTHING);
 		// ASYNC(&lcd, writeInt, 1);
- 		//ASYNC(&piezo, testPiezo, NOTHING);
-		//ASYNC(&lcd, segmentOn, 13);
-		ASYNC(&melody, playDiana, 0);
-		ASYNC(&calculator, primes, 2);
+ 		// ASYNC(&piezo, testPiezo, NOTHING);
+		// ASYNC(&lcd, segmentOn, 13);
+		// ASYNC(&melody, playDianaNonStop, 0);
+		// ASYNC(&melody, playDianaRecommended, 0);
+		ASYNC(&melody, playDianaHacked, 0);
+		ASYNC(&calculator, primes, 60000);
  	   );

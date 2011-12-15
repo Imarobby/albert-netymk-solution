@@ -13,7 +13,9 @@ typedef struct {
 
 #define initSound(p, f) { initObject(), p, f, 1}
 
-void changeFrequency(Sound *self, int freq);
-void play(Sound *self, int nothing);
+void setFrequency(Sound *self, int freq);
+void play(Sound *self, int state);
+void playHacked(Sound *self, int state);
+void playRecursion(Sound *self, int state);
 void setStatus(Sound *self, int status);
 #endif

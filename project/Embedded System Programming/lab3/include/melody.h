@@ -12,4 +12,7 @@ typedef struct {
 #define initMelody(s) { initObject(), s }
 
 void playDiana(Melody *self, int index);
+void playDianaNonStop(Melody *self, int index);
+void playDianaRecommended(Melody *self, int index);
+void playDianaHacked(Melody *self, int index);
 #endif

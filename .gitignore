@@ -9,6 +9,10 @@ build/
 # ctags
 tags
 
+# testing
+test
+Test
+
 # latex compiled files
 *.aux
 *.pdf

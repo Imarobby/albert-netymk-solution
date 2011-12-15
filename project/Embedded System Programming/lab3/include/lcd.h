@@ -8,7 +8,8 @@ typedef struct {
 
 #define initLCD() { initObject()}
 int writeDigit(LCD *self, int digitPos);
-int writeInt(LCD *self, int val);
+void writeLong(long x);
+int writeInt(LCD *self, unsigned int val);
 int segmentOn(LCD *self, int segment);
 int segmentOff(LCD *self, int segment);
 void writeChar(char ch, int pos);

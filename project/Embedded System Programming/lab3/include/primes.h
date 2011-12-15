@@ -10,5 +10,5 @@ typedef struct {
 
 #define initPrimeCalculator(lcd) { initObject(), lcd }
 
-int primes(PrimeCalculator *self, int x);
+int primes(PrimeCalculator *self, unsigned int x);
 #endif

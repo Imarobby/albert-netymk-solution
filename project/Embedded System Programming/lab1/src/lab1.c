@@ -188,9 +188,10 @@ int main()
 	TCCR1B = 0x04;
 	PORTB |= 0x80;
 
-	writeChar(0, 0);
+	// writeChar(0, 0);
 
-	while (1) {
-		blink();
-	}
+	// while (1) {
+	// 	blink();
+	// }
+	writeLong(4);
 }

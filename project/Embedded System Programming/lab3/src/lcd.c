@@ -2,7 +2,7 @@
 
 static int blink_flag = 0;
 
-static void writeLong(long x)
+void writeLong(long x)
 {
 	int i;
 	int bit;
@@ -12,6 +12,9 @@ static void writeLong(long x)
 		writeChar(bit, i);
 		x -= bit * pow(10, i);
 	}
+	// bit = x/(int)pow(10, 5);
+	// writeChar(x, 0);
+
 }
 
 int writeDigit(LCD *self, int digitPos)
@@ -20,7 +23,7 @@ int writeDigit(LCD *self, int digitPos)
 	return 0;
 }
 
-int writeInt(LCD *self, int val)
+int writeInt(LCD *self, unsigned int val)
 {
 	writeLong(val);
 	return 0;

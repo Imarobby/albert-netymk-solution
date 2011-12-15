@@ -26,10 +26,8 @@ vpath %.o obj
 vpath %.d obj/dep
 
 
-all: compile
+all: $(OUTPUTDIR)/$(TARGET).hex
 	avrdude -c avrispmkII -p m169 -P usb  -U flash:w:$(OUTPUTDIR)/$(TARGET).hex
-
-compile: $(OUTPUTDIR)/$(TARGET).hex
 	
 $(OUTPUTDIR)/$(TARGET).hex: $(OUTPUTDIR)/$(TARGET).out
 	$(OBJCOPY) -O ihex -R .eeprom $< $@
@@ -43,7 +41,7 @@ $(OUTPUTDIR)/%.o : %.c
 
 $(DENDIR)/%.d : %.c
 	$(CC) -M $(CPPFLAGS) $< > $@.$$$$; \
-	sed 's!\($*\)\.o[ :]*!$(OUTPUTDIR)/\1.o $@ : !g' < $@.$$$$ > $@; \
+	sed 's!\($*\)\.o[ :]*!\1.o $@ : !g' < $@.$$$$ > $@; \
 	$(RM) -f $@.$$$$
 
 ifneq "$(strip $(MAKECMDGOALS))" "help"
