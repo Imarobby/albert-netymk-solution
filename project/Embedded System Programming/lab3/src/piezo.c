@@ -1,5 +1,4 @@
 #include "piezo.h"
-#include <avr/delay.h>
 
 void turnOn(Piezo *self, int nothing)
 {

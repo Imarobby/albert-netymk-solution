@@ -1,3 +1,4 @@
+#include <math.h>
 #include "lcd.h"
 
 static int blink_flag = 0;

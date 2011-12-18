@@ -126,20 +126,14 @@ typedef signed long Time;
 // No externally significant information below this line
 // -------------------------------------------------------------------
 #define INLINE_3
-#define INLINE_2  inline extern
-#define INLINE_1  inline extern
-
-INLINE_3 Msg async(Time bl, Time dl, Object *to, Method m, int arg);   
-INLINE_3 int sync(Object *to, Method m, int arg);                       
-
-INLINE_1 void mark(void);                                               
-INLINE_2 void schedule(void);                                           
+#define INLINE_2
+#define INLINE_1 inline
 
 INLINE_2 void initialize(void);
 INLINE_2 void idle(void);
 
-INLINE_1 Time current_baseline(void);                                   
 
-INLINE_1 void abort_msg(Msg m);
+INLINE_3 Msg async(Time bl, Time dl, Object *to, Method m, int arg);   
+INLINE_3 int sync(Object *to, Method m, int arg);                       
 
 #endif

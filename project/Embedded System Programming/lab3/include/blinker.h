@@ -1,8 +1,8 @@
-#include "TinyTimber.h"
-#include "lcd.h"
-
 #ifndef _blinker_h
 #define _blinker_h
+
+//#include "TinyTimber.h"
+#include "lcd.h"
 
 typedef struct {
 	Object super;

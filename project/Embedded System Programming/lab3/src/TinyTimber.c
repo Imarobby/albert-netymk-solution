@@ -88,6 +88,14 @@
 
 #define NULL                 0L
 
+INLINE_1 void mark(void);                                               
+INLINE_2 void schedule(void);                                           
+
+INLINE_1 Time current_baseline(void);                                   
+
+INLINE_1 void abort_msg(Msg m);
+
+
 typedef struct thread_block *Thread;
 
 struct msg_block {

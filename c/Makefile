@@ -19,6 +19,7 @@ OBJCOPY=avr-objcopy
 SORT=sort
 AWK=awk
 CAT=cat
+BUILDHEADER=/home/albertnet/workspace/python/example/buildHeader.py
 
 vpath %.c src
 vpath %.h include
@@ -35,11 +36,15 @@ $(OUTPUTDIR)/$(TARGET).hex: $(OUTPUTDIR)/$(TARGET).out
 	$(OBJCOPY) -O ihex -R .eeprom $< $@
 
 $(OUTPUTDIR)/$(TARGET).out : $(OBJECTS)
-	#$(CC) $(LINKOPTION) $^ -L$(LIBDIR) -o $@
 	$(CC) $(LINKOPTION) $^ -lm -o $@
 
 $(OUTPUTDIR)/%.o : %.c
 	$(CC) -c $(COMPILEOPTION) $< -o $@
+
+include/%.h : %.c
+	echo "executed"
+	$(BUILDHEADER) . $<
+	touch $@
 
 $(DENDIR)/%.d : %.c
 	$(CC) -M $(CPPFLAGS) $< > $@.$$$$; \
