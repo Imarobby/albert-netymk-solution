@@ -104,7 +104,7 @@ WITHIN	include/TinyTimber.h	56;"	d
 _TINYTIMBER_	include/TinyTimber.h	8;"	d
 _blinker_h	include/blinker.h	5;"	d
 _button_h	include/button.h	5;"	d
-_lcd_h	include/lcd.h	4;"	d
+_lcd_h	include/lcd.h	2;"	d
 _melody_h	include/melody.h	2;"	d
 _piezo_h	include/piezo.h	4;"	d
 _primes_h	include/primes.h	5;"	d
@@ -121,7 +121,6 @@ blink_flag	src/lcd.c	/^static int blink_flag = 0;$/;"	v	file:
 button	src/button.c	/^void button(Button *self, int nothing)$/;"	f
 c	src/melody.c	5;"	d	file:
 calculator	src/testLab3.c	/^PrimeCalculator calculator = initPrimeCalculator(&lcd);$/;"	v
-changeFrequency	src/sound.c	/^void changeFrequency(Sound *self, int freq)$/;"	f
 context	src/TinyTimber.c	/^	jmp_buf context;     \/\/ machine state$/;"	m	struct:thread_block	file:
 current	src/TinyTimber.c	/^Thread current = &thread0;$/;"	v
 current_baseline	src/TinyTimber.c	/^INLINE_1 Time current_baseline()$/;"	f
@@ -172,8 +171,14 @@ ownedBy	include/TinyTimber.h	/^    struct thread_block *ownedBy, *wantedBy;$/;"	
 p	include/sound.h	/^	Piezo *p;$/;"	m	struct:__anon2
 period	include/blinker.h	/^	int period;$/;"	m	struct:__anon4
 piezo	src/testLab3.c	/^Piezo piezo = initPiezo();$/;"	v
-play	src/sound.c	/^void play(Sound *self, int nothing)$/;"	f
-playDiana	src/melody.c	/^void playDiana(Melody *self, int index)$/;"	f
+play	src/sound.c	/^void play(Sound *self, int freq) $/;"	f
+playDianaHacked	src/melody.c	/^void playDianaHacked(Melody *self, int index)$/;"	f
+playDianaHackedRecursion	src/melody.c	/^static void playDianaHackedRecursion(Melody *self, int index)$/;"	f	file:
+playDianaNonStop	src/melody.c	/^void playDianaNonStop(Melody *self, int index)$/;"	f
+playDianaNonStopRecursion	src/melody.c	/^static void playDianaNonStopRecursion(Melody *self, int index)$/;"	f	file:
+playDianaRecommended	src/melody.c	/^void playDianaRecommended(Melody *self, int index)$/;"	f
+playDianaRecommendedRecursion	src/melody.c	/^static void playDianaRecommendedRecursion(Melody *self, int index)$/;"	f	file:
+playHacked	src/sound.c	/^void playHacked(Sound *self, int state)$/;"	f
 playRecursion	src/sound.c	/^void playRecursion(Sound *self, int state)$/;"	f
 pop	src/TinyTimber.c	/^INLINE_2 Thread pop(Thread *stack)$/;"	f
 primes	src/primes.c	/^int primes(PrimeCalculator *self, unsigned int x)$/;"	f
@@ -185,6 +190,7 @@ schedule	src/TinyTimber.c	/^INLINE_2 void schedule()$/;"	f
 segment	include/blinker.h	/^	int segment;$/;"	m	struct:__anon4
 segmentOff	src/lcd.c	/^int segmentOff(LCD *self, int segment)$/;"	f
 segmentOn	src/lcd.c	/^int segmentOn(LCD *self, int segment)$/;"	f
+setFrequency	src/sound.c	/^void setFrequency(Sound *self, int freq)$/;"	f
 setPeriod	src/blinker.c	/^int setPeriod(Blinker *self, int period)$/;"	f
 setStatus	src/sound.c	/^void setStatus(Sound *self, int status)$/;"	f
 showAll	src/testLab3.c	/^int showAll(Is *self, int nothing){$/;"	f
@@ -220,7 +226,7 @@ wantedBy	include/TinyTimber.h	/^    struct thread_block *ownedBy, *wantedBy;$/;"
 writeChar	src/lcd.c	/^void writeChar(char ch, int pos)$/;"	f
 writeDigit	src/lcd.c	/^int writeDigit(LCD *self, int digitPos)$/;"	f
 writeInt	src/lcd.c	/^int writeInt(LCD *self, unsigned int val)$/;"	f
-writeLong	src/lcd.c	/^static void writeLong(long x)$/;"	f	file:
+writeLong	src/lcd.c	/^void writeLong(long x)$/;"	f
 x	src/melody.c	12;"	d	file:
 y	src/melody.c	13;"	d	file:
 z	src/melody.c	14;"	d	file:

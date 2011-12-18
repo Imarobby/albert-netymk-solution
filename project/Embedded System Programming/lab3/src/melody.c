@@ -14,8 +14,11 @@
 #define z 1250
 #define SS 2000
 #define t 1500
+
+#define SPAN 10
 static void playDianaHackedRecursion(Melody *self, int index);
 static void playDianaNonStopRecursion(Melody *self, int index);
+static void playDianaRecommendedRecursion(Melody *self, int index);
 
 static int freq[50] = {e, e, e, e, e, e, e, f, f, f,
 	f, g, f, d, e, e, e, e, e, e,
@@ -51,11 +54,22 @@ void playDianaHacked(Melody *self, int index)
 	ASYNC(self, playDianaHackedRecursion, index+1);
 }
 
+void playDianaRecommended(Melody *self, int index)
+{
+	if(index == 50) {
+		index = 0;
+	}
+	BEFORE(MSEC(duration[index]), self->s, play, freq[index]);
+
+	WITHIN(MSEC(duration[index]), MSEC(SPAN), self->s, setStatus, 0);
+	AFTER(MSEC(duration[index] + SPAN), self, playDianaRecommended, index+1);
+}
+
 /**
  * This method is the one I like best. Unfortunately, it doesn't work
  * very good, for the limitation of this architecture.
  */
-void playDianaRecommended(Melody *self, int index)
+static void playDianaRecommendedRecursion(Melody *self, int index)
 {
 	if(index == 50) {
 		index = 0;
@@ -94,6 +108,5 @@ static void playDianaHackedRecursion(Melody *self, int index)
 	// WITHIN(MSEC(duration[index]), MSEC(10), self->s, setStatus, 0);
 	AFTER(MSEC(duration[index]), self->s, setStatus, 0);
 
-	AFTER(MSEC(duration[index] + 10), self, playDianaHackedRecursion, index+1);
+	AFTER(MSEC(duration[index] + SPAN), self, playDianaHackedRecursion, index+1);
 }
-

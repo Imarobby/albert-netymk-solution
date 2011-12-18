@@ -96,7 +96,6 @@ typedef signed long Time;
 #define BASELINE() \
         current_baseline()
 
-
 #if defined(__AVR_ATmega169__)    // AVR ATmega169 Butterfly dependencies 
 //      Construct a Time value form an argument given in milliseconds.
 #define MSEC(x) \

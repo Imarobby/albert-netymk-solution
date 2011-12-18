@@ -1,0 +1,73 @@
+#!/bin/bash
+
+#tamonet.sh
+
+#e.g ./tamonet.sh BGP-Lab01.net
+#It is best if you copy the script so it is in the same directory as the directory in which the .net file is.
+#Obviously, this script only works for Linux distributions that are using GNOME eg Ubuntu.
+PORTS=/tmp/ports
+NAMES=/tmp/devicenames
+TELNETCMDS=/tmp/telnetcmds
+TELNETTABNAME1=/tmp/telnettabname1 #Initial set of command arguments for gnome terminal
+TELNETTABNAME2=/tmp/telnettabname2 #Strip away the tab from the commands — just in case
+TELNETTABNAME=/tmp/telnettabname #the commands sorted so we have things sequentially
+LASTCMD=/tmp/lastcmd.sh
+
+#First delete the files if they exit
+rm -f $PORTS
+rm -f $NAMES
+rm -f $TELNETTABNAME
+rm -f $TELNETCMDS
+rm -f $TELNETTABNAME1
+rm -f $TELNETTABNAME2
+rm -f $LASTCMD
+
+#Xtract the ports from .net file and put them into ports file in /tmp
+grep -E console $1 | sed s/console\ =\ // | tr -d [] | tr -s '[:blank:]' >> $PORTS
+
+#Create corresponding file that containts the names
+grep -E '\[\[ROUTER' $1 | sed s/ROUTER\ // | tr -d [] | tr -s '[:blank:]' >> $NAMES
+
+#This block constructs the telnet commands for each router and writes them to $TELNETTABNAME
+for i in $( cat $PORTS );
+do
+	echo "'telnet localhost $i' -t" >> $TELNETCMDS
+done
+
+#Combine the telnet command with the device name on same line
+#Side effect: insert tab
+paste $TELNETCMDS $NAMES >> $TELNETTABNAME1
+
+#replace all tabs with a single space.
+expand -t 1 $TELNETTABNAME1 >> $TELNETTABNAME2
+
+#Now sort the file
+sort $TELNETTABNAME2 >> $TELNETTABNAME
+
+#how many lines [routers] in the file?
+routers=`wc -l $TELNETTABNAME | gawk '{print $1}'` 
+let "routers=$routers+1"
+
+#This block reads in the commands from a file and assign each line to a dimensioned variable R[x]
+{
+counter=0
+while [ "$counter" -lt "$routers" ]
+do
+	read R[$counter]
+	let "counter=$counter+1"
+done
+} < $TELNETTABNAME
+
+#Build the gnome-terminal command and options from the contents of the R[x] dimension
+counter=0
+let "routers=$routers-2" 
+command="gnome-terminal --tab-with-profile=~/.gconf/apps/gnome-terminal/profiles/Default/%gconf.xml -e ${R[$counter]}"
+while [ "$counter" -lt "$routers" ]
+do
+	let "counter=$counter+1"
+	command="$command --tab-with-profile=~/.gconf/apps/gnome-terminal/profiles/Default/%gconf.xml -e ${R[$counter]}"
+	#echo $command
+done
+echo  $command >> $LASTCMD
+chmod u+x $LASTCMD
+$LASTCMD

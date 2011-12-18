@@ -19,7 +19,6 @@ typedef struct{
   Object super;
 } Is;
 
-
 #define initIs() {initObject()}
 #define CONFLCD {LCDCRB = 0xb7; LCDFRR = 0x10; LCDCCR = 0x0f; LCDCRA = 0x80;}
 int showAll(Is *self, int nothing);
@@ -68,10 +67,10 @@ STARTUP(CONFLCD;
  		CONFPIEZO;
  		// ASYNC(&sound, play, NOTHING);
 		// ASYNC(&lcd, writeInt, 1);
- 		// ASYNC(&piezo, testPiezo, NOTHING);
+ 		//ASYNC(&piezo, testPiezo, NOTHING);
 		// ASYNC(&lcd, segmentOn, 13);
 		// ASYNC(&melody, playDianaNonStop, 0);
-		// ASYNC(&melody, playDianaRecommended, 0);
+		//ASYNC(&melody, playDianaRecommended, 0);
 		ASYNC(&melody, playDianaHacked, 0);
-		ASYNC(&calculator, primes, 60000);
+		ASYNC(&calculator, primes, 65000);
  	   );

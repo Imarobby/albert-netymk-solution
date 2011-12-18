@@ -266,7 +266,11 @@ INLINE_2 void schedule()
 /* timer interrupts */
 TOVFL_INTERRUPT {
 	Time now;
+	// Each increment of overflow represents one increase of 2^16 in
+	// the smallest scale.
 	overflows++;
+	// It's possible that the task is scheduled after x*2^16 minimal
+	// scale.
 	TIMERGET(now);
 	while (timerQ && (timerQ->baseline - now - TDELTA < 0)) {
 		enqueueByDeadline(dequeue(&timerQ), &msgQ);
@@ -299,8 +303,6 @@ INLINE_3 Msg async(Time bl, Time dl, Object *to, Method meth, int arg)
 
 	TIMERGET(now);
 	if (!irqstatus) {           // async from an interrupt-handler
-		// writeDummy(sizeof(long));
-		// writeChar(1, 0);
 		m->baseline = bl < 0 ? timestamp : MAX(now, timestamp + bl);
 		m->deadline = dl < 0 ? timestamp + INF(0) : timestamp + INF(dl);
 	} else {                    // ordinary async call
