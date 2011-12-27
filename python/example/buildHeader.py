@@ -25,7 +25,7 @@ def combine(sourceFileName, headerFileName):
 		print headerFileName, ' is updated.'
 		header = tempfile.TemporaryFile()
 		subprocess.call(prefix + 'extractHeader.pl "' + headerFileName +'"', stdout=header, shell=True)
-		newHeader = open(include, 'w')
+		newHeader = open(headerFileName, 'w')
 
 		header.seek(0)
 		headerLines = header.readlines() 
@@ -47,15 +47,15 @@ if targetDirectory[-1] != '/':
 	targetDirectory += '/';
 
 src = sys.argv[2]
-src = targetDirectory + '/src/' + src
+src = targetDirectory + src
 
 itemname = os.path.basename(src)[:-2]
 header = targetDirectory + 'include/' + itemname + '.h'
 if not os.path.isfile(header):
 	# create new header
 	f = open(header, 'w')
-	f.write('#ifndef_' + itemname + '_h' + "\n")
-	f.write('#def_' + itemname + '_h' + "\n")
+	f.write('#ifndef _' + itemname + '_h' + "\n")
+	f.write('#define _' + itemname + '_h' + "\n")
 	f.write('#endif')
 	f.close()
 combine(src, header);

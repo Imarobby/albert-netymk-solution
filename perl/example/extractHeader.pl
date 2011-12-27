@@ -7,7 +7,7 @@ use Switch;
 
 my $flag = 0;
 my $extract = 1;
-switch( $ARGV ) {
+switch( @ARGV ) {
 	case 1 { 
 		switch( $ARGV[0] ) {
 			case /.*\.c/ { $extract = 1; }
@@ -16,10 +16,11 @@ switch( $ARGV ) {
 			exit;
 		} 
 	}
-	case 2 { $extract = 1; }
+	case 2 { shift @ARGV; $extract = 1; }
 	print "I need one or two argument.\n";
 	exit;
 }
+
 
 if($extract) {
 	LINE: while(<>) {
@@ -27,7 +28,7 @@ if($extract) {
 		# it is possible that the function declaration extends 
 		# two lines
 		if($flag != 1) {
-			if(/^\w[^=]*\([^=]*\)?$/) {
+			if(/^\w[^= ]* \w[^= ]*\([^=]*\)?$/) {
 				if(/^(static)/) {
 					# omit the private function declaration
 					next LINE;
