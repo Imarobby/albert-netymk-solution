@@ -285,6 +285,11 @@ TOVFL_INTERRUPT {
 	}
 	TIMERSET(timerQ);
 	schedule();
+	if(current->next && current->next != &thread0) {
+		dispatch(current->next);
+	} else {
+		dispatch(activeStack);
+	}
 }
 
 TCMP_INTERRUPT {

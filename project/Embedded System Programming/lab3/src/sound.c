@@ -10,22 +10,6 @@ void setStatus(Sound *self, int status)
 	self->status = status;
 }
 
-void play(Sound *self, int freq) 
-{
-	self->status = 1;
-	self->f = freq;
-	ASYNC(self, playRecursion, 1);
-}
-
-/**
- * The only difference between the hacked version and the normal one
- * is that this method will hog the thread "forever", for it has
- * higher priority.
- * Putting the recursion call out of the if condition will ensure that
- * there will always be one message in the queue, which further
- * ensures that this method will get the thread before the prime
- * method.
- */
 void playHacked(Sound *self, int state)
 {
 	if(self->status) {
@@ -41,6 +25,10 @@ void playHacked(Sound *self, int state)
 			playHacked, !state);
 }
 
+/**
+ * If this method exits, it's quite "expensive" invoke it. That's the
+ * reason why this one doesn't work in this case.
+ */
 void playRecursion(Sound *self, int state)
 {
 	if(self->status) {

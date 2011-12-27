@@ -1,7 +1,7 @@
 #include <avr/io.h>
 #include "lcd.h"
 #include "primes.h"
-// #include "blinker.h"
+#include "blinker.h"
 #include "button.h"
 #include "sound.h"
 #include "melody.h"
@@ -66,11 +66,11 @@ Melody melody = initMelody(&sound);
 STARTUP(CONFLCD;
  		CONFPIEZO;
  		// ASYNC(&sound, play, NOTHING);
-		// ASYNC(&lcd, writeInt, 1);
+		//ASYNC(&lcd, writeInt, 1);
  		//ASYNC(&piezo, testPiezo, NOTHING);
 		// ASYNC(&lcd, segmentOn, 13);
 		// ASYNC(&melody, playDianaNonStop, 0);
-		//ASYNC(&melody, playDianaRecommended, 0);
-		ASYNC(&melody, playDianaHacked, 0);
+		// ASYNC(&melody, playDianaAntiPattern, 0);
+		//ASYNC(&melody, playDianaHacked, 0);
 		ASYNC(&calculator, primes, 65000);
  	   );

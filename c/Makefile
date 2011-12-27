@@ -42,7 +42,6 @@ $(OUTPUTDIR)/%.o : %.c
 	$(CC) -c $(COMPILEOPTION) $< -o $@
 
 include/%.h : %.c
-	echo "executed"
 	$(BUILDHEADER) . $<
 	touch $@
 

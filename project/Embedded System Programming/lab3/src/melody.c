@@ -1,3 +1,4 @@
+#include "sound.h"
 #include "melody.h"
 
 #define a 440
@@ -18,7 +19,7 @@
 #define SPAN 10
 static void playDianaHackedRecursion(Melody *self, int index);
 static void playDianaNonStopRecursion(Melody *self, int index);
-static void playDianaRecommendedRecursion(Melody *self, int index);
+static void playDianaAntiPatternRecursion(Melody *self, int index);
 
 static int freq[50] = {e, e, e, e, e, e, e, f, f, f,
 	f, g, f, d, e, e, e, e, e, e,
@@ -54,30 +55,30 @@ void playDianaHacked(Melody *self, int index)
 	ASYNC(self, playDianaHackedRecursion, index+1);
 }
 
-void playDianaRecommended(Melody *self, int index)
+void playDianaAntiPattern(Melody *self, int index)
 {
-	if(index == 50) {
-		index = 0;
-	}
-	BEFORE(MSEC(duration[index]), self->s, play, freq[index]);
-
-	WITHIN(MSEC(duration[index]), MSEC(SPAN), self->s, setStatus, 0);
-	AFTER(MSEC(duration[index] + SPAN), self, playDianaRecommended, index+1);
+	ASYNC(self, playDianaAntiPatternRecursion, index);
 }
 
 /**
- * This method is the one I like best. Unfortunately, it doesn't work
- * very good, for the limitation of this architecture.
+ * This method is one good example to test how well the reader
+ * understands TinyTimber. Because of the limitation of this
+ * architecture, each step must be carefully calculated and estimated
+ * in order for it to work.
  */
-static void playDianaRecommendedRecursion(Melody *self, int index)
+static void playDianaAntiPatternRecursion(Melody *self, int index)
 {
 	if(index == 50) {
 		index = 0;
 	}
-	BEFORE(MSEC(duration[index]), self->s, play, freq[index]);
+	BEFORE(MSEC(duration[index]), self->s, setFrequency, freq[index]);
+	BEFORE(MSEC(duration[index]), self->s, setStatus, 1);
+	// This is the culprit.
+	BEFORE(MSEC(duration[index]), self->s, playRecursion, freq[index]);
 
 	WITHIN(MSEC(duration[index]), MSEC(10), self->s, setStatus, 0);
-	AFTER(MSEC(duration[index] + 10), self, playDianaRecommended, index+1);
+	AFTER(MSEC(duration[index] + 10), self, 
+			playDianaAntiPatternRecursion, index+1);
 }
 
 static void playDianaNonStopRecursion(Melody *self, int index)
@@ -85,13 +86,10 @@ static void playDianaNonStopRecursion(Melody *self, int index)
 	if(index == 50) {
 		index = 0;
 	}
-	// ASYNC(self->s, play, freq[index]);
-	// BEFORE(MSEC(duration[index]), self->s, play, freq[index]);
 	BEFORE(MSEC(duration[index]), self->s, setFrequency, freq[index]);
 
-	// WITHIN(MSEC(duration[index]), MSEC(duration[index] + 10), self->s, setStatus, 0);
-	// WITHIN(MSEC(duration[index]), MSEC(10), self->s, setStatus, 0);
-	AFTER(MSEC(duration[index] + 10), self, playDianaRecommended, index+1);
+	AFTER(MSEC(duration[index] + 10), self, 
+			playDianaNonStopRecursion, index+1);
 }
 
 static void playDianaHackedRecursion(Melody *self, int index)
@@ -108,5 +106,6 @@ static void playDianaHackedRecursion(Melody *self, int index)
 	// WITHIN(MSEC(duration[index]), MSEC(10), self->s, setStatus, 0);
 	AFTER(MSEC(duration[index]), self->s, setStatus, 0);
 
-	AFTER(MSEC(duration[index] + SPAN), self, playDianaHackedRecursion, index+1);
+	AFTER(MSEC(duration[index] + SPAN), self, 
+			playDianaHackedRecursion, index+1);
 }

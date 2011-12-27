@@ -22,6 +22,7 @@ def combine(sourceFileName, headerFileName):
 	oldDeclarationLines = oldDeclaration.readlines()
 	newDeclarationLines = newDeclaration.readlines()
 	if oldDeclarationLines != newDeclarationLines:
+		print headerFileName, ' is updated.'
 		header = tempfile.TemporaryFile()
 		subprocess.call(prefix + 'extractHeader.pl "' + headerFileName +'"', stdout=header, shell=True)
 		newHeader = open(include, 'w')
@@ -49,7 +50,6 @@ src = sys.argv[2]
 src = targetDirectory + '/src/' + src
 
 itemname = os.path.basename(src)[:-2]
-print itemname
 header = targetDirectory + 'include/' + itemname + '.h'
 if not os.path.isfile(header):
 	# create new header
