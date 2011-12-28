@@ -7,6 +7,8 @@ use Switch;
 
 my $flag = 0;
 my $extract = 1;
+
+print scalar @ARGV, "\n";
 switch( @ARGV ) {
 	case 1 { 
 		switch( $ARGV[0] ) {
@@ -20,7 +22,6 @@ switch( @ARGV ) {
 	print "I need one or two argument.\n";
 	exit;
 }
-
 
 if($extract) {
 	LINE: while(<>) {
