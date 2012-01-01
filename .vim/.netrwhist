@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/home/albertnet/workspace/java/VaccumCleaner/build'
+let g:netrw_dirhist_2='/boot/grub'
+let g:netrw_dirhist_3='/home/albertnet/notebook'
+let g:netrw_dirhist_4='/home/albertnet/notebook/web'
+let g:netrw_dirhist_5='/home/albertnet/workspace/java/FifteenPuzzle/build'
+let g:netrw_dirhist_6='/home/albertnet/workspace/java/PerceptronLearning/src'
+let g:netrw_dirhist_7='/home/albertnet/workspace/project/Embedded System Programming/lab2/src'
+let g:netrw_dirhist_8='/home/albertnet/workspace/project/Minijava/src/visitor'
+let g:netrw_dirhist_9='/home/albertnet/workspace/bash'
