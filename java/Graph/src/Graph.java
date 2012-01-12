@@ -1,5 +1,3 @@
-package graph;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -83,9 +81,9 @@ public class Graph {
 				} catch (NumberFormatException e) {
 					System.err.println("Skipping ill-formatted line " + line);
 				}
-				// clean up
-				fin.close();
 			}
+			// clean up
+			fin.close();
 		} catch (IOException e) {
 			System.err.println(e);
 		}

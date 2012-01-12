@@ -23,9 +23,9 @@ highlight PmenuThumb ctermfg=0 ctermbg=7
 " auto complete
 " set completeopt=longest,menu
 " used for autoindent
+set tabstop=4
 :set shiftwidth=4
 " tab width
-:set tabstop=4
 :set softtabstop=8
 
 " show line number
@@ -93,6 +93,8 @@ autocmd InsertLeave * let &l:foldmethod=w:last_fdm
 :autocmd FileType txt set formatoptions=tqw, textwidth=149
 
 :autocmd FileType tex set formatoptions=tqw, textwidth=149
+
+autocmd FileType haskell set expandtab
 
 "some maps for inputing formulas in tex
 :autocmd FileType tex imap <F3> \mathbf{}

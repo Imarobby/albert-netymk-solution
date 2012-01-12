@@ -1,0 +1,4 @@
+Bergbacka           Götberg               31
+Götberg             Bergbacka             31
+Bergbacka           Kalbo                 74
+Kalbo               Bergbacka             74

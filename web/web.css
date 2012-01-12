@@ -1,6 +1,6 @@
 body {
 	font: 80% arial, helvetica, sans-serif;
-	background: #ccc url(images/lizards2.gif);
+	background: #ccc; 
 	margin: 1em;
 }
 
