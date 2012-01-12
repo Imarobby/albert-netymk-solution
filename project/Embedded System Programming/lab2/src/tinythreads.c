@@ -5,8 +5,6 @@
 #include "tinythreads.h"
 
 #define NULL            0
-#define DISABLE()       cli()
-#define ENABLE()        sei()
 #define STACKSIZE       80
 #define NTHREADS        4
 #define SETSTACK(buf,a) *((unsigned int *)(buf)+8) = (unsigned int)(a) + STACKSIZE - 4; \
@@ -94,29 +92,25 @@ void spawn(void (* function)(int), int arg) {
 }
 
 void yield(void) {
-	DISABLE();
 	enqueue(current, &readyQ);
 	dispatch(dequeue(&readyQ));
-	ENABLE();
 }
 
 void lock(mutex *m) {
-	while(1) {
-		DISABLE();
-		if(m->locked == LOCKED) {
-			yield();
-		} else {
-			break;
-		}
-		ENABLE();
-	}
 	DISABLE();
+	while(m->locked == LOCKED) {
+		enqueue(m->waitQ, current);
+		dispatch(dequeue(&readyQ));
+	}
 	m->locked = LOCKED;
 	ENABLE();
 }
 
 void unlock(mutex *m) {
 	DISABLE();
+	if(m->waitQ) {
+		enqueue(readyQ, dequeue(m->waitQ));
+	}
 	m->locked = UNLOCKED;
 	ENABLE();
 }

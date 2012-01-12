@@ -6,8 +6,6 @@
 
 struct thread_block;
 typedef struct thread_block *thread;
-void spawn(void (*code)(int), int arg);
-void yield(void);
 
 struct mutex_block {
     int locked;
@@ -16,8 +14,12 @@ struct mutex_block {
 typedef struct mutex_block mutex;
 
 #define MUTEX_INIT {0,0}
-void lock(mutex *m);
-void unlock(mutex *m);
+#define DISABLE()       cli()
+#define ENABLE()        sei()
 
 #define UNLOCKED 0
+void spawn(void (* function)(int), int arg);
+void yield(void);
+void lock(mutex *m);
+void unlock(mutex *m);
 #define LOCKED 1

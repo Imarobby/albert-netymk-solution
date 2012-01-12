@@ -159,15 +159,19 @@ void writeLong(long x)
  */
 ISR(SIG_PIN_CHANGE1)
 {
+	DISABLE();
 	// Check pressed status
 	if ((PINB & PORTB) != PORTB) {    //determine whether bit 7 of PINB is 1 
 		yield();
 	}
+	ENABLE();
 }
 
 ISR(SIG_OUTPUT_COMPARE1A)
 {
+	DISABLE();
 	yield();
+	ENABLE();
 }
 
 int main()
