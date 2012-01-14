@@ -1,7 +1,12 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <util/delay.h>
+#include <math.h>
 #include "tinythreads.h"
 
+
+void writeLong(long x);
+mutex m = MUTEX_INIT;
 int num[10][4] = { { 0x1, 0x5, 0x5, 0x1 },
 		   { 0x0, 0x1, 0x1, 0x0 },
 		   { 0x1, 0x1, 0xE, 0x1 },
@@ -107,7 +112,7 @@ void writeChar(char ch, int pos)
 
 int is_prime(long number)
 {
-	for (int i = 2; i < i; ++i) {
+	for (int i = 2; i < number; ++i) {
 		if (number % i == 0) {
 			return 0;
 		}
@@ -115,12 +120,15 @@ int is_prime(long number)
 	return 1;
 }
 
+int pp;
 void printAt(long num, int pos)
 {
-	int pp = pos;
-	writeChar((num % 100) / 10, pp);
+	lock(&m);
+	pp = pos;
 	pp++;
-	writeChar(num % 10, pp);
+	writeChar((num % 100) / 10, pp);
+	writeChar(num % 10, pp-1);
+	unlock(&m);
 }
 
 void computePrimes(int pos)
@@ -130,15 +138,17 @@ void computePrimes(int pos)
 		if (is_prime(n)) {
 			printAt(n, pos);
 		}
+		_delay_ms(5000);
 	}
 }
 
-void prime()
+void prime(int x)
 {
-	for (long i = 2; i < 999999; i++) {
+	for (long i = x; i < 999999; i++) {
 		if (is_prime(i)) {
 			writeLong(i);
 		}
+		_delay_ms(5000);
 	}
 }
 
@@ -191,12 +201,11 @@ int main()
 	//OCR1A = 0X0186;       //a period of 50MS              (8000000/256)*0.05=390=0X186
 	// OCR1A = 0X3D09; //a period of 0.5s
 	// TODO the value doesn't seem very right.
-	OCR1A = 8000000/256*1;
+	OCR1A = 8000000/256*0.0001;
 	TCNT1 = 0x0;    //start timer from 0
 	TCCR1B = 0x0D;  //set the timer to CTC (bit 3 = 1) and use prescaling factor of 1024 (bit2,1,0 = 101)
 	TIMSK1 = 0x02;  //enable timer output compare A
 
 	spawn(computePrimes, 0);
 	computePrimes(3);
-	// prime();
 }

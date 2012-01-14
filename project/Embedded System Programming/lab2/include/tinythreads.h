@@ -1,8 +1,5 @@
-/*
- *
- * tinythreads.h
- *
- */
+#ifndef _tinythreads_h
+#define _tinythreads_h
 
 struct thread_block;
 typedef struct thread_block *thread;
@@ -18,8 +15,9 @@ typedef struct mutex_block mutex;
 #define ENABLE()        sei()
 
 #define UNLOCKED 0
-void spawn(void (* function)(int), int arg);
+#define LOCKED 1
+void spawn(void (*function)(int), int arg);
 void yield(void);
 void lock(mutex *m);
 void unlock(mutex *m);
-#define LOCKED 1
+#endif
