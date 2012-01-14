@@ -7,3 +7,4 @@
 # 012 is line feed, and 040 is space
 # Sort the previous result by its second field.
 tr A-Z a-z < $1 | tr -cd 'a-z\012\040' | awk -f frequency.awk | sort -k 2 -nr
+#cat $1 | awk -f frequency.awk | sort -k 2 -nr

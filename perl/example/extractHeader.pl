@@ -8,7 +8,6 @@ use Switch;
 my $flag = 0;
 my $extract = 1;
 
-print scalar @ARGV, "\n";
 switch( @ARGV ) {
 	case 1 { 
 		switch( $ARGV[0] ) {
@@ -29,6 +28,7 @@ if($extract) {
 		# it is possible that the function declaration extends 
 		# two lines
 		if($flag != 1) {
+			# returnType functionName(...)
 			if(/^\w[^= ]* \w[^= ]*\([^=]*\)?$/) {
 				if(/^(static)/) {
 					# omit the private function declaration

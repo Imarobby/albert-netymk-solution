@@ -33,6 +33,28 @@ public class TestGraph {
 				// neighbor we want to analyze has been removed from the queue
 				neighbor = current.adj.get(i).dest;
 				if (!closeSet.contains(neighbor)) {
+					if (queue.contains(neighbor)) {
+						if (neighbor.distance > current.distance + current.adj.get(i).cost) {
+							// we need to update the value of distance, first remove this item, then add it afterwards
+							queue.remove(neighbor);
+							neighbor.distance = current.distance + current.adj.get(i).cost;
+							queue.add(neighbor);
+
+							// it is easier to trace back the path
+							neighbor.pre = current;
+						}
+					} else {
+						neighbor.distance = current.distance + current.adj.get(i).cost;
+						queue.add(neighbor);
+						// it is easier to trace back the path
+						neighbor.pre = current;
+					}
+				}
+				/*
+				if (!closeSet.contains(neighbor)) {
+					// This version works as well, for I have set the default
+					// value of distance to be very big. Therefore, the vertex
+					// are added to the queue anyway.
 					if (neighbor.distance > current.distance + current.adj.get(i).cost) {
 						// we need to update the value of distance, first remove this item, then add it afterwards
 						queue.remove(neighbor);
@@ -43,6 +65,7 @@ public class TestGraph {
 						neighbor.pre = current;
 					}
 				}
+				*/
 			}
 			closeSet.add(current);
 		}
@@ -53,7 +76,7 @@ public class TestGraph {
 			Vertex sou, des;
 			if (args.length < 3) {
 				sou = g.vertexMap.get("Kalbo");
-				des = g.vertexMap.get("Bergbo");
+				des = g.vertexMap.get("Långvik");
 				System.err.println("The number of argument should be three.");
 				System.out.println("I will use " + sou.name + " -> " + des.name + " instead.");
 			} else {

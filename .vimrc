@@ -118,7 +118,7 @@ autocmd QuickFixCmdPost    l* nested lwindow
 :autocmd FileType c,cpp iab #e <Space>************************************************/
 :autocmd FileType c,cpp iab @e fprintf(stderr, "Error");
 
-:autocmd FileType java set formatoptions=tcroql, textwidth=140
+:autocmd FileType java set formatoptions=tcroql, textwidth=80
 	\ comments=sr:/*,mb:*,ex:*/,://
 
 :autocmd FileType sh set formatoptions=croql, textwidth=70
