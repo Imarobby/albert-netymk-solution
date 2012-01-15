@@ -1,0 +1,24 @@
+<project default="compile">
+	<property name="basedir" location="${user.dir}" />
+	<target name="clean">
+		<delete includeEmptyDirs="true">
+			<fileset dir="bin" includes="**/*" defaultsexclude="no" />
+		</delete>
+	</target>
+	<target name="test">
+		<echo>${basedir}</echo>
+	</target>
+
+	<target name="init">
+		<mkdir dir="bin"/>
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="src" destdir="bin"/>
+	</target>
+
+	<target name="run" depends="compile">
+		<java classpath="bin" classname="TestGraph$Test" fork="yes" />
+	</target>
+</project>
+
