@@ -96,6 +96,9 @@ autocmd InsertLeave * let &l:foldmethod=w:last_fdm
 
 autocmd FileType haskell set expandtab
 
+au FileType xdefaults 
+		\ :au BufWritePost .Xresources :silent !xrdb ~/.Xresources
+
 "some maps for inputing formulas in tex
 :autocmd FileType tex imap <F3> \mathbf{}
 :autocmd FileType tex map <F4> :.,'as/=/\&=\&/
