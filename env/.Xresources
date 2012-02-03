@@ -1,0 +1,45 @@
+! fc-list to see all the available fonts
+UXTerm*faceName: DejaVu Sans Mono
+UXTerm*faceNameDoublesize: WenQuanYi Zen Hei:size=10
+UXTerm.VT100.geometry: 84x20
+UXTerm*background: black
+UXTerm*foreground: white
+
+UXTerm.VT100.translations: #override \
+		Ctrl <Key> minus: smaller-vt-font() \n\
+		Ctrl <Key> plus: larger-vt-font() \n\
+
+! The above shortcut will loop through the following font size
+UXTerm*faceSize: 10
+UXTerm*faceSize1: 6
+UXTerm*faceSize2: 10
+UXTerm*faceSize3: 13
+UXTerm*faceSize4: 16
+UXTerm*faceSize5: 20
+UXTerm*faceSize6: 24
+		
+
+! <F7> to insert content from clipboard
+UXTerm*VT100.translations: #override <Key>F7:insert-selection(CLIPBOARD)
+! By default, middle click will insert content from selection PRIMARY
+
+URxvt.title:URxvt-Unicode
+URxvt.termName:rxvt-unicode
+URxvt.scrollBar:false
+URxvt.saveLines:500
+
+!URxvt.background:black
+urxvt*background:rgba:2000/2000/2000/cccc
+URxvt.foreground:lightgray
+URxvt.colorBD:yellow
+URxvt.colorUL:Green
+URxvt.font:xft: DejaVu Sans Mono:Regular:size=10:antialias:true
+URxvt.letterSpace: -1
+URxvt.geometry: 84x20
+
+URxvt.inheritPixmap: true
+URxvt.tintCddolor: lightgray
+URxvt.shading: 10
+!URxvt.transparent: true
+urxvt*depth:32
+!urxvt*foreground:#B0B0B0
