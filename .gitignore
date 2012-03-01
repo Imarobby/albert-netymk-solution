@@ -32,6 +32,8 @@ Test
 *.o
 *.out
 *.so
+# haskell
+*.hi
 
 # Packages #
 ############
