@@ -1,5 +1,12 @@
 [user]
-	name = Albert
+	name = Albert Netymk
 	email = albertnetymk@gmail.com
+[diff]
+	tool = vimdiff
 [color]
-	ui = auto
+	status = auto
+	branch = auto
+[merge]
+	tool = vimdiff
+[mergetool]
+	keepBackup = false

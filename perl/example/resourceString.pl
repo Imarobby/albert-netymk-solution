@@ -2,7 +2,6 @@
 use strict;
 use warnings;
 
-my $n = 0;
 my %set = ();
 my $key;
 while(<>) {

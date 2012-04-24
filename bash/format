@@ -1,0 +1,2 @@
+#!/bin/bash -e
+uncrustify -c ~/.kr-indent.cfg --replace --no-backup $@

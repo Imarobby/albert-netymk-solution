@@ -1,0 +1,2 @@
+#!/bin/bash -e
+ghc --make -isrc -outputdir obj -o a.out

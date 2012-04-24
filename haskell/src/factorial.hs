@@ -1,5 +1,4 @@
-factorial n = if n > 1
-                 then n * factorial (n-1)
-                 else 1
+factorial n | n > 1 = n * factorial (n-1)
+            | otherwise = 1
 
-main = print $ factorial 6
+main = print $ factorial 4

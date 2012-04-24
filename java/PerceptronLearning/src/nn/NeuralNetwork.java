@@ -1,4 +1,6 @@
 package nn;
+import file.MFile;
+import java.util.*;
 
 public abstract class NeuralNetwork {
   public double train(double[] input, double[] target, double eta) {

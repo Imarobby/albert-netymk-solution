@@ -61,7 +61,7 @@ static void DRCLR(int pos)
 
 void writeChar(char ch, int pos)
 {
-	while(ch > 9) {
+	while (ch > 9) {
 		// Decimal
 		ch -= 10;
 	}
@@ -139,7 +139,7 @@ void writeLong(long x)
 
 void blink()
 {
-	if (TCNT1 >= 16384*2) {
+	if (TCNT1 >= 16384 * 2) {
 		Flag_blink = !Flag_blink;
 		if (Flag_blink == 0) {
 			LCDDR8 = 0x00;
@@ -191,7 +191,7 @@ int main()
 	// writeChar(0, 0);
 
 	// while (1) {
-	// 	blink();
+	//      blink();
 	// }
 	writeLong(4);
 }

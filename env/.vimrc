@@ -1,5 +1,7 @@
 :set nocompatible
 
+"redir! >> /home/albertnet/tmp/test.txt
+
 au! BufWritePost .vimrc source %
 
 ":colorscheme evening
@@ -13,6 +15,7 @@ highlight PmenuThumb ctermfg=0 ctermbg=7
 :set scrolloff=10
 :set autowrite
 :set showcmd
+" show matched bracket
 :set showmatch
 "files that leave the screen become hidden, instead of inactive
 :set hidden
@@ -20,8 +23,6 @@ highlight PmenuThumb ctermfg=0 ctermbg=7
 " to complete a filename
 :set wildmenu
 
-" auto complete
-" set completeopt=longest,menu
 " used for autoindent
 set tabstop=4
 :set shiftwidth=4
@@ -31,23 +32,24 @@ set tabstop=4
 " show line number
 :set number
 
-" multi files
-nmap > :next
-nmap < :previous
+" iterate through buffer
+nmap > :bnext
+nmap < :bprevious
+
+" TODO how to express CTRL-W_p in vim script?
+"nmap F ^W_p :hide
 
 " delete consecutive blank lines
 " \n line feed, the default line separator in unix,
 " \r carriage return, used to input the line separator.
-nmap <F4> :%s!^\s*\n\+!\r!
-
 " remove trailing spaces
-nmap <F5> :%s!\s\+$!!
-
+nmap <F4> :%s!^\s*\n\+!\r! :%s!\s\+$!!
 " only one space is inserted whiling joining two lines
 :set nojoinspaces
 
 " exit vim
 :nmap XX :wall:qa
+set fileencodings=ucs-bom,utf-8,gb2312,gbk,default,latin1
 " reload the file using extended unix chinese encoding
 :nmap <F11> :e ++enc=euc-cn
 " clear highlight after search
@@ -96,21 +98,17 @@ autocmd InsertLeave * let &l:foldmethod=w:last_fdm
 
 autocmd FileType haskell set expandtab
 
-au FileType xdefaults 
-		\ :au BufWritePost .Xresources :silent !xrdb ~/.Xresources
-
 "some maps for inputing formulas in tex
-:autocmd FileType tex imap <F3> \mathbf{}
-:autocmd FileType tex map <F4> :.,'as/=/\&=\&/
-:autocmd FileType tex map <F5> :s/{\(\a\)}/{\\partial \1}/gc
-:autocmd FileType tex map <F6> o\begin{equation}\end{equation}O
+":autocmd FileType tex imap <F3> \mathbf{}
+":autocmd FileType tex map <F4> :.,'as/=/\&=\&/
+":autocmd FileType tex map <F5> :s/{\(\a\)}/{\\partial \1}/gc
+":autocmd FileType tex map <F6> o\begin{equation}\end{equation}O
 
-nmap  :make
+" build
+nmap <F5> :make
 nmap ]] :cn
 nmap [[ :cp
-
-autocmd QuickFixCmdPost [^l]* nested copen
-autocmd QuickFixCmdPost    l* nested lwindow
+autocmd QuickFixCmdPost [^l]* nested cwindow
 
 :autocmd FileType c,cpp set formatoptions=tcroql, textwidth=70
 	\ comments=sr:/*,mb:*,ex:*/,://
@@ -121,6 +119,8 @@ autocmd QuickFixCmdPost    l* nested lwindow
 :autocmd FileType c,cpp iab #e <Space>************************************************/
 :autocmd FileType c,cpp iab @e fprintf(stderr, "Error");
 
+:autocmd FileType c,cpp nmap =f :w:!format % :e
+
 :autocmd FileType java set formatoptions=tcroql, textwidth=80
 	\ comments=sr:/*,mb:*,ex:*/,://
 
@@ -130,6 +130,10 @@ autocmd QuickFixCmdPost    l* nested lwindow
 	\ comments=sr:/*,mb:*,ex:*/,://
 
 " Plugin
+
+" auto complete
+" set completeopt=longest,menu
+
 " Latex-Suite
 " REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
 filetype plugin on
@@ -141,8 +145,12 @@ set grepprg=grep\ -nH\ $*
 
 " This enables automatic indentation as you type.
 filetype indent on
-" indent in html
-let g:html_indent_inctags = "html,body,head,tbody,p,code,pre,li"
+
+" indent/html.vim
+" indent for <script> and <style>
+let g:html_indent_style1 = "inc"
+let g:html_indent_script1 = "inc"
+let g:html_indent_inctags = "html,body,head,tbody,p,code,pre,ul,li"
 
 " OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
 " 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
@@ -161,3 +169,6 @@ let g:SuperTabLongestHighlight = 1
 
 " taglist
 nmap <F3> :TlistToggle
+
+au BufEnter *.hs compiler ghc
+let g:haddock_browser = '/usr/bin/firefox'
