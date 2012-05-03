@@ -58,6 +58,9 @@ set fileencodings=ucs-bom,utf-8,gb2312,gbk,default,latin1
 "regex
 cmap ;\ \(\)<Left><Left>
 
+"insert current date
+iab <expr> dts strftime("%Y-%m-%d %T%z")
+
 " search options
 :set incsearch
 :set hlsearch

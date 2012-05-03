@@ -260,7 +260,7 @@ exception send_wait(mailbox *mBox, void *Data)
 		}
 		LoadContext();
 	} else {
-		if(Running->DeadLine >= tickCounter) {
+		if(tickCounter >= Running->DeadLine) {
 			msg *tmpMsg = readylist->pHead->pNext->pMessage;
 			removeMsg(mBox, tmpMsg);
 			readylist->pHead->pNext->pMessage = NULL;
@@ -334,7 +334,7 @@ exception receive_wait(mailbox *mBox, void *Data)
 		}
 		LoadContext();
 	} else {
-		if(Running->DeadLine <= tickCounter) {
+		if(tickCounter >= Running->DeadLine) {
 			msg *tmpMsg = readylist->pHead->pNext->pMessage;
 			removeMsg(mBox, tmpMsg);
 			readylist->pHead->pNext->pMessage = NULL;
