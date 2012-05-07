@@ -132,6 +132,7 @@ autocmd QuickFixCmdPost [^l]* nested cwindow
 :autocmd FileType php set formatoptions=tcroql, textwidth=130
 	\ comments=sr:/*,mb:*,ex:*/,://
 
+
 " Plugin
 
 " auto complete

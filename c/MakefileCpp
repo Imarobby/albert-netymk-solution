@@ -1,5 +1,5 @@
 TARGET = target
-MAKEFILE = /home/albertnet/workspace/c/Makefile
+MAKEFILE = /home/albertnet/workspace/c/MakefileCpp
 
 SRCDIR=src
 IDIR=/usr/lib/include
@@ -17,7 +17,6 @@ CC=g++
 SORT=sort
 AWK=awk
 CAT=cat
-BUILDHEADER=/home/albertnet/workspace/python/example/buildHeader.py
 
 vpath %.cpp src
 vpath %.h include
@@ -32,10 +31,6 @@ $(OUTPUTDIR)/$(TARGET).out : $(OBJECTS)
 
 $(OUTPUTDIR)/%.o : %.cpp
 	$(CC) -c $(COMPILEOPTION) $< -o $@
-
-include/%.h : %.cpp
-	#$(BUILDHEADER) . $<
-	touch $@
 
 $(DENDIR)/%.d : %.cpp
 	$(CC) -M $(CPPFLAGS) $< > $@.$$$$; \

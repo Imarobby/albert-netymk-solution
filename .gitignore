@@ -10,8 +10,8 @@ build/
 tags
 
 # testing
-test
-Test
+mytest
+MyTest
 
 # latex compiled files
 *.aux

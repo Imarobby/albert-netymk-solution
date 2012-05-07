@@ -17,3 +17,4 @@ alias unzipl="unzip -l"
 alias ftpeis="ftp eishalmstad.dyndns.org"
 alias ssheis="ssh albert@eishalmstad.dyndns.org"
 alias mocha="mocha --compilers coffee:coffee-script"
+alias rspec='rspec --color'

@@ -1,2 +1,3 @@
 #!/bin/bash -e
-ghc --make -isrc -outputdir obj -o a.out
+rm -f obj/Main.o
+ghc --make -isrc -outputdir obj -o a.out $@

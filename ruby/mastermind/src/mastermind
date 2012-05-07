@@ -1,0 +1,8 @@
+#!/home/albertnet/.rvm/rubies/ruby-1.9.3-rc1/bin/ruby
+$: << File.join(File.dirname(__FILE__), '../src')
+require 'mastermind'
+game = Mastermind::Game.new(STDOUT)
+game.start(%w[r g b c])
+while guess = gets
+	game.guess guess.split
+end
