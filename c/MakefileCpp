@@ -11,6 +11,7 @@ OBJECTS = $(addprefix $(OUTPUTDIR)/,$(subst .cpp,.o,$(SOURCES)))
 
 CPPFLAGS +=-I$(IDIR) -Iinclude
 COMPILEOPTION=$(CPPFLAGS) -Os
+#-DVERBOSE
 LINKOPTION=-L$(LIBDIR) -Os
 
 CC=g++
@@ -24,7 +25,7 @@ vpath %.o obj
 vpath %.d obj/dep
 
 $(TARGET): $(OUTPUTDIR)/$(TARGET).out
-	ln -s $(OUTPUTDIR)/$(TARGET).out $@
+	ln -sf "$<" "$@"
 	
 $(OUTPUTDIR)/$(TARGET).out : $(OBJECTS)
 	$(CC) $(LINKOPTION) $^ -lm -o $@

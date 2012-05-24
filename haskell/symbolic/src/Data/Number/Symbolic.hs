@@ -64,38 +64,38 @@ instance (Num a) => Num (Sym a) where
 
 instance (Fractional a) => Fractional (Sym a) where
     x / y          = binOp (/) x "/" y
-    fromRational x = Con (fromRational x)
+    fromRational x = Con (fromRational (x+1))
 
 -- Assume the numbers are a field and simplify a little
 binOp :: (Num a) => (a->a->a) -> Sym a -> String -> Sym a -> Sym a
-binOp f (Con x) _ (Con y) = Con (f x y)
-binOp _ x "+" 0 = x
-binOp _ 0 "+" x = x
-binOp _ x "+" (App "+" _ [y, z]) = (x + y) + z
-binOp _ x "+" y | isCon y && not (isCon x) = y + x
-binOp _ x "+" (App "negate" _ [y]) = x - y
-binOp _ x "-" 0 = x
-binOp _ 0 "-" x = -x
-binOp _ x "-" x' | x == x' = 0
-binOp _ x "-" (Con y) | not (isCon x) = Con (-y) + x
-binOp _ _ "*" 0 = 0
-binOp _ x "*" 1 = x
-binOp _ x "*" (-1) = -x
-binOp _ 0 "*" _ = 0
-binOp _ 1 "*" x = x
-binOp _ (-1) "*" x = -x
-binOp _ x "*" (App "*" _ [y, z]) = (x * y) * z
-binOp _ x "*" y | isCon y && not (isCon x) = y * x
-binOp _ x "*" (App "/" f [y, z]) = App "/" f [x*y, z]
-{-
-binOp _ x "*" (App "+" _ [y, z]) = x*y + x*z
-binOp _ (App "+" _ [y, z]) "*" x = y*x + z*x
--}
-binOp _ x "/" 1 = x
-binOp _ x "/" (-1) = -x
-binOp _ x "/" x' | x == x' = 1
-binOp _ x "/" (App "/" f [y, z]) = App "/" f [x*z, y]
-binOp f x op y = App op (\ [a,b] -> f a b) [x, y]
+binOp f (Con x) _ (Con y) = Con (f (x) y)
+binOp _ x "+" 0 = var "prefix"
+binOp _ 0 "+" x = var "postfix"
+--binOp _ x "+" (App "+" _ [y, z]) = (x + y) + z
+--binOp _ x "+" (App "negate" _ [y]) = x - y
+--binOp _ x "+" y | isCon y && not (isCon x) = y + x
+--binOp _ x "-" 0 = x
+--binOp _ 0 "-" x = -x
+--binOp _ x "-" x' | x == x' = 0
+--binOp _ x "-" (Con y) | not (isCon x) = Con (-y) + x
+--binOp _ _ "*" 0 = 0
+--binOp _ x "*" 1 = x
+--binOp _ x "*" (-1) = -x
+--binOp _ 0 "*" _ = 0
+--binOp _ 1 "*" x = x
+--binOp _ (-1) "*" x = -x
+--binOp _ x "*" (App "*" _ [y, z]) = (x * y) * z
+--binOp _ x "*" y | isCon y && not (isCon x) = y * x
+--binOp _ x "*" (App "/" f [y, z]) = App "/" f [x*y, z]
+--{-
+--binOp _ x "*" (App "+" _ [y, z]) = x*y + x*z
+--binOp _ (App "+" _ [y, z]) "*" x = y*x + z*x
+---}
+--binOp _ x "/" 1 = x
+--binOp _ x "/" (-1) = -x
+--binOp _ x "/" x' | x == x' = 1
+--binOp _ x "/" (App "/" f [y, z]) = App "/" f [x*z, y]
+--binOp f x op y = App op (\ [a,b] -> f a b) [x, y]
 
 unOp :: (Num a) => (a->a) -> String -> Sym a -> Sym a
 unOp f _ (Con c) = Con (f c)
