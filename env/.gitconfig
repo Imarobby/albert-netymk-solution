@@ -1,12 +1,21 @@
 [user]
-	name = Albert Netymk
-	email = albertnetymk@gmail.com
+    name = Albert Netymk
+    email = albertnetymk@gmail.com
 [diff]
-	tool = vimdiff
+    tool = vimdiff
 [color]
-	status = auto
-	branch = auto
+    status = auto
+    branch = auto
+    ui = true
 [merge]
-	tool = vimdiff
+    tool = vimdiff
 [mergetool]
-	keepBackup = false
+    keepBackup = false
+[format]
+    pretty = oneline
+[alias]
+    cm = commit
+    ss = status
+    ck = checkout
+    br = branch
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative

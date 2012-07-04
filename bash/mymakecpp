@@ -1,2 +1,2 @@
 #!/bin/bash -e
-make --silent -f ~/workspace/c/MakefileCpp -C "$PWD" $@
+make -f ~/workspace/c/MakefileCpp -C "$PWD" $@

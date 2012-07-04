@@ -1,2 +1,2 @@
 #!/bin/bash -e
-ant -f ~/workspace/java/build.xml -Dbasedir=${PWD}
+ant -f ~/workspace/java/build.xml -Dbasedir="${PWD}" $@

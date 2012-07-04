@@ -1,50 +1,47 @@
-MCU = atmega169
 TARGET = target
 MAKEFILE = /home/albertnet/workspace/c/Makefile
 
 SRCDIR=src
-IDIR=/usr/lib/avr/include
-LIBDIR=/usr/lib/avr/lib
+TESESRCDIR=test
 OUTPUTDIR=obj
 DENDIR = $(OUTPUTDIR)/dep
 SOURCES = $(notdir $(wildcard $(SRCDIR)/*))
 OBJECTS = $(addprefix $(OUTPUTDIR)/,$(subst .c,.o,$(SOURCES)))
+TESTSOURCES = $(notdir $(wildcard $(TESESRCDIR)/*))
+TESTOBJECTS = $(addprefix $(OUTPUTDIR)/,$(subst .c,.o,$(TESTSOURCES)))
 
-CPPFLAGS +=-I/usr/lib/avr/include -Iinclude
-COMPILEOPTION=-mmcu=$(MCU) $(CPPFLAGS) -std=c99 -Os
-LINKOPTION=-mmcu=$(MCU) -Os
+CFLAGS += -std=c99
+CPPFLAGS += -Iinclude
+LDLIBS = -lcspec -lm
 
-CC=avr-gcc
-OBJCOPY=avr-objcopy
+CC=clang
 SORT=sort
 AWK=awk
 CAT=cat
-BUILDHEADER=/home/albertnet/workspace/python/example/buildHeader.py
 
 vpath %.c src
+vpath %.c test
 vpath %.h include
 vpath %.o obj
 vpath %.d obj/dep
 
 
 all: compile
-	avrdude -c avrispmkII -p m169 -P usb  -U flash:w:$(OUTPUTDIR)/$(TARGET).hex
 
-compile: $(OUTPUTDIR)/$(TARGET).hex
-	ln -s "$<" "$(TARGET).hex"
+link: $(OUTPUTDIR)/$(TARGET).out
+	ln -s "$<" "$(TARGET).out"
 	
-$(OUTPUTDIR)/$(TARGET).hex: $(OUTPUTDIR)/$(TARGET).out
-	$(OBJCOPY) -O ihex -R .eeprom $< $@
+test: $(OBJECTS) $(TESTOBJECTS)
+	$(LINK.o) $^ $(LOADLIBES) $(LDLIBS) -o $@.out
+	./$@.out
+
+compile: $(OBJECTS)
 
 $(OUTPUTDIR)/$(TARGET).out : $(OBJECTS)
-	$(CC) $(LINKOPTION) $^ -lm -o $@
+	$(LINK.o) $^ $(LOADLIBES) $(LDLIBS) -o $@
 
 $(OUTPUTDIR)/%.o : %.c
-	$(CC) -c $(COMPILEOPTION) $< -o $@
-
-include/%.h : %.c
-	$(BUILDHEADER) . $<
-	touch $@
+	$(COMPILE.c) $(OUTPUT_OPTION) $<
 
 $(DENDIR)/%.d : %.c
 	$(CC) -M $(CPPFLAGS) $< > $@.$$$$; \

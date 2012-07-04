@@ -1,2 +1,2 @@
 #!/bin/bash -e
-make --silent -f ~/workspace/c/Makefile -C "$PWD" $@
+make -f ~/workspace/c/Makefile -C "$PWD" $@

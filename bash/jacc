@@ -1,6 +1,0 @@
-#!/bin/sh
-
-# the current directory
-JACC_PATH=.
-
-java -jar $JACC_PATH/jacc.jar $*

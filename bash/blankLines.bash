@@ -10,8 +10,8 @@
 #perl -0777 -i -pe 's!\n{2,}\Z!\n!' <filename>
 
 if [ $# -ne 1 ]; then
-	echo "One argument, please";
-	exit;
+    echo "One argument, please";
+    exit;
 fi
 
 target="$1";

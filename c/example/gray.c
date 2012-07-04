@@ -1,6 +1,7 @@
 /*
  * Program: gray
- * Purpose: to convert binary numbers to gray code
+ * Purpose: to convert binary numbers to gray code, which is a binary
+ * numeral system where two successive values differ in only one bit.
  */
 #include <stdio.h>
 #include <string.h>
