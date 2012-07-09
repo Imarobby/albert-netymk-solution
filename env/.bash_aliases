@@ -20,3 +20,5 @@ alias mocha="mocha --compilers coffee:coffee-script"
 alias rspec='rspec --color'
 alias di='directory'
 alias tmux='tmux -2'
+alias wm='w3m'
+alias rm='myrm'

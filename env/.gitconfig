@@ -4,18 +4,17 @@
 [diff]
     tool = vimdiff
 [color]
-    status = auto
-    branch = auto
     ui = true
 [merge]
     tool = vimdiff
 [mergetool]
     keepBackup = false
-[format]
-    pretty = oneline
 [alias]
     cm = commit
     ss = status
     ck = checkout
     br = branch
     lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    sm = show -s --format=full
+[core]
+    excludesfile = /home/albertnet/.gitignore
